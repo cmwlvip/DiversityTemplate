@@ -1,0 +1,6 @@
+[submodule "themes/diversity"]
+	path = themes/diversity
+	url = https://github.com/huazie/hexo-theme-diversity
+[submodule "themes/landscape"]
+	path = themes/landscape
+	url = https://github.com/hexojs/hexo-theme-landscape
