@@ -12,18 +12,19 @@ window.addEventListener('message', function(event) {
     if (!event.data || event.data.type !== 'diversity:route-change') return;
 
     const theme = Diversity.data.get('theme');
-    let blogPath = event.data.path || '/';
-    // 去除路径中的主题名
-    const themeIndex = blogPath.indexOf(theme);
-    if (themeIndex !== -1) {
-        blogPath = blogPath.substring(themeIndex + theme.length);
+    if (!config.themes.includes(theme)) return;
+    const themeRoot = Diversity.browser.getThemeUrl(theme).pathname;
+    const path = event.data.path;
+    if (typeof path !== 'string' || !path.startsWith(themeRoot)) return;
+
+    const url = new URL(window.location.href);
+    const blogPath = path.slice(themeRoot.length);
+    if (blogPath) {
+        url.searchParams.set('path', '/' + blogPath);
+    } else {
+        url.searchParams.delete('path');
     }
-    // 空字符串或只有 / 都视为根路径
-    if (!blogPath || blogPath === '' || blogPath === '/') blogPath = '/';
-    const originPath = window.location.pathname;
-    const param = blogPath === '/' ? '' : '?path=' + blogPath;
-    const newUrl = window.location.origin + originPath + param;
-    history && history.replaceState({ path: originPath }, '', newUrl);
+    history.replaceState({ path: url.pathname }, '', url.href);
 });
 
 function showDefaultBlogPage() {
@@ -31,43 +32,17 @@ function showDefaultBlogPage() {
     const theme = Diversity.data.get('theme');
     const blogIframe = document.getElementById('blog');
 	// 如果没有设置默认主题，则跳转无主题页
-	if (!theme) {
-        blogIframe.src = '/no-theme.html';
+    if (!config.themes.includes(theme)) {
+        blogIframe.src = config.no_theme.url;
         return;
     }
 
     // 添加loading效果
     blogIframe.classList.add('loading');
 
-    const href = window.location.href;
-    const hostname = window.location.hostname;
-    const port = window.location.port;
-
-    let url;
-
-    // 本地环境 localhost 或者 127.0.0.1 或者 同个局域网下带有端口
-    if (port) {
-        url = href.replace(port, Diversity.data.getThemeServerPort(theme));
-    } else { // 静态页面部署环境
-        url = href;
-    }
-
-    // 获取path参数，blogIframe中的页面链接路径
-    let path = Diversity.browser.getParameter('path');
-
-    // 截取url中非参数的部分【不包含 ? 】
-    url = url.indexOf('?') != -1 ? url.substring(0, url.indexOf('?')) : url;
-
-    // 主题选择页面路径含其他内容，类似 '/diversity/theme'，直接导航有问题，需要去除
-    url = url.replace(config.menu.blog, '');
-
-    if (!url.endsWith("/")) url += "/";
-
-    url += theme;
-
-    // 如果存在页面链接路径参数，则追加到博客页访问url中
-    if (path) 
-        url += path;
+    const themeUrl = Diversity.browser.getThemeUrl(theme);
+    const path = new URLSearchParams(window.location.search).get('path') || '';
+    const url = themeUrl.href + path.replace(/^\/+/, '');
 
     blogIframe.addEventListener('load', function() {
         // 去除loading效果
@@ -150,7 +125,7 @@ document.addEventListener('color-scheme:refresh', () => {
         const theme = Diversity.data.get('theme');
         const blogIframe = document.getElementById('blog');
         // 没有设置默认主题
-        if (!theme)
+        if (!config.themes.includes(theme))
             blogIframe.contentDocument.documentElement.classList.toggle("dark-theme");
         else
             blogIframe.classList.toggle('dark-filter');

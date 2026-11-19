@@ -296,6 +296,13 @@ Diversity.browser = {
     toString() {
         return "Diversity.browser";
     },
+    getThemeUrl(theme) {
+        const url = new URL(config.root + encodeURIComponent(theme) + '/', window.location.origin);
+        if (config.local_preview) {
+            url.port = Diversity.data.getThemeServerPort(theme);
+        }
+        return url;
+    },
     /**
      * 获取URL地址栏参数值
      *

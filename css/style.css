@@ -930,7 +930,7 @@ pre .addition {
   text-indent: 101%;
   white-space: nowrap;
   overflow: hidden;
-  background: url("/images/diversity.svg");
+  background: url("../images/diversity.svg");
   width: 60px;
   height: 60px;
   background-size: 60px 60px;
@@ -1302,7 +1302,7 @@ pre .addition {
 }
 .left-arrow,
 .right-arrow {
-  background-image: url("/images/arrow.png");
+  background-image: url("../images/arrow.png");
   background-repeat: no-repeat;
   background-size: contain;
   z-index: 1;

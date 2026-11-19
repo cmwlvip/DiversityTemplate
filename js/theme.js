@@ -29,7 +29,7 @@
                 text: config.gritter.text_configured + ' <a class="gritter-link" href="' 
                     + blogUrl + '">' + config.gritter.text_clicktojump + '</a>',
                 time: 4000,
-                image: window.location.origin + '/images/diversity.png',
+                image: config.gritter.image,
                 class_name: 'gritter-success gritter-light'
             });
         } else if (theme && theme == curTheme) {
@@ -39,7 +39,7 @@
                 title: Diversity.data.convert(config.gritter.title_theme, theme),
                 text: config.gritter.text_canceled,
                 time: 4000,
-                image: window.location.origin + '/images/diversity.png',
+                image: config.gritter.image,
                 class_name: 'gritter-warning gritter-light'
             });
         } 
@@ -71,28 +71,7 @@
     // 主题直达按钮点击事件
     $('.theme-redirect').on('click', function() {
         const theme = $(this).parent('p').attr('theme');
-        const href = window.location.href;
-        const hostname = window.location.hostname;
-        const port = window.location.port;
-
-        let url;
-
-        // 本地环境 localhost 或者 127.0.0.1 或者 同个局域网下带有端口
-        if (port) {
-            url = href.replace(port, Diversity.data.getThemeServerPort(theme));
-        } else { // 静态页面部署环境
-            url = href;
-        }
-
-        // 主题选择页面路径含其他内容，类似 '/diversity/theme'，直接导航有问题，需要去除
-        url = url.replace(config.menu.theme, '');
-
-        if (!url.endsWith("/")) url += "/";
-
-        url += theme;
-
-        // 跳转
-        window.open(url, "_blank");
+        window.open(Diversity.browser.getThemeUrl(theme).href, "_blank");
     });
 
     // 主题来源按钮点击事件

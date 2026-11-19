@@ -31,8 +31,8 @@
         if (!href.endsWith("/")) href += "/";
         if (
             window.location.href.includes(href) ||
-            (window.location.pathname === "/" &&
-                (href === "/" || href === config.index))
+            (window.location.pathname === config.root &&
+                (href === config.root || href === config.index))
         ) {
             // 添加激活显示的样式
             thiz.classList.add("active");
