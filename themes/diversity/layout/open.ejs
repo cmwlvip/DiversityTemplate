@@ -1,0 +1,117 @@
+<% const openDisplay = page.display || theme.open.display || 'grid'; %>
+<% const openPageSize = page.page_size || theme.open.page_size || 0; %>
+<%# 开源项目数据：source/_data/open/*.yml 单文件配置，文件名即 key（如 open/diversity-comments-site），按 order 升序；提前计算供 标签筛选栏 与 列表 共用 %>
+<% const openData = site.data || {}; %>
+<% const projects = Object.keys(openData).filter(function (k) { return k.indexOf('open/') === 0; }).map(function (k) { var p = Object.assign({}, openData[k]); p.key = k.slice(5); return p; }).sort(function (a, b) { return (a.order || 0) - (b.order || 0); }); %>
+<%# 常用标签：被 ≥2 个项目使用的标签（次数降序、同名升序） %>
+<% var tagCount = {}; %>
+<% projects.forEach(function (p) { (p.tags || []).forEach(function (t) { tagCount[t] = (tagCount[t] || 0) + 1; }); }); %>
+<% var hotTags = Object.keys(tagCount).filter(function (t) { return tagCount[t] >= 2; }).sort(function (a, b) { return tagCount[b] - tagCount[a] || a.localeCompare(b); }); %>
+<div id="content-wrap" class="open-page">
+    <div id="content" class="wrapper">
+        <div id="content-inner">
+            <article class="article-container" itemscope itemtype="http://schema.org/Article">
+                <div class="article-inner">
+                    <div class="article">
+                        <div class="inner">
+                            <%# has-tagbar：筛选栏常驻，header 恒收掉 20px 下内边距，间距统一由筛选栏自身 margin 控制 %>
+                            <header class="article-header has-tagbar">
+                                <div class="open-title-row">
+                                    <h1 class="article-title" itemprop="name"><svg class="open-title-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0L20 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg><span><%= __('open.title') %></span></h1>
+                                    <div class="open-search">
+                                        <svg class="open-search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+                                        <input id="open-search-input" class="open-search-input" type="search" autocomplete="off" spellcheck="false" placeholder="<%= __('open.search') %>" aria-label="<%= __('open.search') %>">
+                                        <button class="open-search-clear" type="button" aria-label="<%= __('open.clear') %>" hidden>
+                                            <svg class="open-search-clear-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                                        </button>
+                                    </div>
+                                    <div class="open-toolbar">
+                                        <button class="open-switch<%= openDisplay === 'grid' ? ' active' : '' %>" data-mode="grid" title="<%= __('open.view_grid') %>" aria-label="<%= __('open.view_grid') %>">
+                                            <svg class="open-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+                                        </button>
+                                        <button class="open-switch<%= openDisplay === 'list' ? ' active' : '' %>" data-mode="list" title="<%= __('open.view_list') %>" aria-label="<%= __('open.view_list') %>">
+                                            <svg class="open-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="6" r="1.8"/><circle cx="5" cy="12" r="1.8"/><circle cx="5" cy="18" r="1.8"/><rect x="9" y="4.5" width="12" height="3" rx="1.5"/><rect x="9" y="10.5" width="12" height="3" rx="1.5"/><rect x="9" y="16.5" width="12" height="3" rx="1.5"/></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </header>
+                            <%# 筛选栏：常用标签 chips 居左 + 右侧控件组（折叠按钮 + 排序下拉）靠右；
+                                点击标签与搜索取交集，卡片内标签也可点击筛选。
+                                始终渲染——排序控件常驻，无常用标签时该行只剩排序下拉。
+                                控件组在 DOM 中前置于标签行、浮动到右上角，标签行为块级、chip 为行内级：
+                                第一行标签自动避让控件，其后的行占满整行，标签按自身宽度密排不留大片空白。
+                                标签过多时由 open.js 折叠为「+N」（展开/收起文案经 data 属性注入） %>
+                            <div class="open-filterbar">
+                                <%# 控件组：折叠「+N」按钮（由 open.js 注入到本组内、排序下拉之前）+ 排序下拉 %>
+                                <div class="open-filter-tools">
+                                    <select class="open-sort" aria-label="<%= __('open.sort') %>">
+                                        <option value="order"><%= __('open.sort_default') %></option>
+                                        <option value="name"><%= __('open.sort_name_asc') %></option>
+                                        <option value="name_desc"><%= __('open.sort_name_desc') %></option>
+                                    </select>
+                                </div>
+                                <%# chip 之间不能有空白字符：行内级元素之间的空白会叠加成额外间隙（间距改由 chip 自身 margin 提供） %>
+                                <div class="open-tagbar" data-more-label="<%= __('open.tags_more') %>" data-less-label="<%= __('open.tags_less') %>"<% if (hotTags.length) { %> role="group" aria-label="<%= __('open.filter') %>"<% } %>><% hotTags.forEach(function (t) { %><button type="button" class="open-tagchip" data-tag="<%= t %>" aria-pressed="false"><%= t %><span class="open-tagchip-n"><%= tagCount[t] %></span></button><% }); %></div>
+                            </div>
+                            <p class="open-status" data-result="<%= __('open.result') %>" role="status" aria-live="polite" hidden></p>
+<%# 详情页根路径：当前列表页路径去掉文件名（⑦ 卡片名/图标进详情页的链接用） %>
+<% const detailBase = (page.path || '').replace(/[^/]+$/, ''); %>
+<div id="open-list" class="open-<%= openDisplay %>" data-more="<%= __('open.more') %>" data-collapse="<%= __('open.collapse') %>" data-page-size="<%= openPageSize %>">
+    <% projects.forEach(function (p) { %>
+    <% var dUrl = url_for(detailBase + p.key + '/'); %>
+    <% var sp = [p.key, p.name, p.description, p.author, p.license]; if (p.language) sp = sp.concat(Array.isArray(p.language) ? p.language : [p.language]); if (p.tags) sp = sp.concat(p.tags); %>
+    <div class="open-card" data-search="<%= sp.filter(Boolean).join(' ') %>" data-tags="<%= (p.tags || []).join('|') %>">
+        <div class="open-card-head">
+            <a class="open-logo-link" href="<%= dUrl %>" aria-label="<%= __('open.detail') %>: <%= p.name %>"><% if (p.logo) { %><img class="open-logo" src="<%= diversity_url(p.logo) %>" alt="<%= p.name %>" loading="lazy"><% } else { %><svg class="open-logo open-logo-default" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="20" fill="var(--content-bg-color)" stroke="var(--text-color)" stroke-width="3" stroke-opacity="0.3"/><text x="50" y="50" dy="0.35em" text-anchor="middle" font-size="52" font-weight="bold" fill="var(--text-color)" font-family="system-ui, -apple-system, sans-serif"><%= (p.name || '?').trim().charAt(0).toUpperCase() %></text></svg><% } %></a>
+            <h3 class="open-name"><a class="open-name-link" href="<%= dUrl %>"><%= p.name %></a></h3>
+        </div>
+        <div class="open-card-body">
+            <h3 class="open-name"><a class="open-name-link" href="<%= dUrl %>"><%= p.name %></a></h3>
+                                        <% if (p.description) { %><p class="open-desc"><%= p.description %></p><% } %>
+                                        <div class="open-meta">
+                                            <% if (p.author) { %><% if (p.author_url) { %><a class="open-badge-link" href="<%= p.author_url %>" target="_blank" rel="noopener"><% } %><span class="open-badge open-badge-author"><span class="open-badge-label"><%= __('open.author') %></span><span class="open-badge-value"><%= p.author %></span></span><% if (p.author_url) { %></a><% } %><% } %>
+                                            <% if (p.language) { %><% var langs = Array.isArray(p.language) ? p.language : [p.language]; %><span class="open-badge open-badge-lang"><span class="open-badge-label"><%= __('open.language') %></span><% langs.forEach(function (lang) { %><span class="open-badge-value"><%= lang %></span><% }); %></span><% } %>
+                                            <% if (p.license) { %><% var licUrl = p.license_url || (p.source ? p.source + '/blob/main/LICENSE' : ''); %><% if (licUrl) { %><a class="open-badge-link" href="<%= licUrl %>" target="_blank" rel="noopener"><% } %><span class="open-badge open-badge-license"><span class="open-badge-label"><%= __('open.license') %></span><span class="open-badge-value"><%= p.license %></span></span><% if (licUrl) { %></a><% } %><% } %>
+                                        </div>
+                                        <% if (p.tags && p.tags.length) { %><div class="open-tags"><% p.tags.forEach(function (t) { %><button type="button" class="open-tag" data-tag="<%= t %>" aria-label="<%= __('open.filter') %>: <%= t %>"><%= t %></button><% }); %></div><% } %>
+                                        <div class="open-links">
+                                            <% if (p.source) { %><a class="open-link" href="<%= p.source %>" target="_blank" rel="noopener"><%= __('open.source') %></a><% } %>
+                                            <% if (p.demo) { %><a class="open-link" href="<%= p.demo %>" target="_blank" rel="noopener"><%= __('open.demo') %></a><% } %>
+                                            <% if (p.doc) { %><a class="open-link" href="<%= p.doc %>" target="_blank" rel="noopener"><%= __('open.doc') %></a><% } %>
+                                            <button class="open-toggle" type="button" aria-expanded="false" aria-label="<%= __('open.more') %>">
+                                                <svg class="open-toggle-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }); %>
+                                <% if (!projects.length) { %><p class="open-empty"><%= __('open.empty') %></p><% } %>
+                            </div>
+                            <div class="open-no-result" hidden>
+                                <%# 空状态卡片：插画居左 + 文案按钮居右，与项目卡片同风格；颜色走 currentColor 跟随明暗主题 %>
+                                <svg class="open-no-ico" viewBox="0 0 120 96" fill="none" aria-hidden="true" focusable="false">
+                                    <rect x="14" y="6" width="76" height="56" rx="8" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.45"/>
+                                    <rect x="24" y="18" width="40" height="6" rx="3" fill="currentColor" opacity="0.22"/>
+                                    <rect x="24" y="32" width="56" height="6" rx="3" fill="currentColor" opacity="0.22"/>
+                                    <rect x="24" y="46" width="26" height="6" rx="3" fill="currentColor" opacity="0.16"/>
+                                    <circle cx="78" cy="52" r="15" stroke="currentColor" stroke-width="3" opacity="0.8"/>
+                                    <circle cx="78" cy="52" r="2" fill="currentColor" opacity="0.5"/>
+                                    <circle cx="78" cy="52" r="7.5" fill="currentColor" opacity="0.12"/>
+                                    <path d="M89.5 63.5 L103 77" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" opacity="0.8"/>
+                                </svg>
+                                <div class="open-no-body">
+                                    <p class="open-empty"><%= __('open.no_result') %></p>
+                                    <p class="open-empty-tip"><%= __('open.no_result_tip') %></p>
+                                    <button class="open-reset" type="button"><%= __('open.reset') %></button>
+                                </div>
+                            </div>
+                            <%# 分页按钮由 open.js 动态渲染；page_size 为 0 或仅一页时保持隐藏 %>
+                            <nav id="open-pagination" class="open-pagination" data-prev="<%= __('open.prev') %>" data-next="<%= __('open.next') %>" aria-label="<%= __('open.pagination') %>" hidden></nav>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>
+<%- js({src: 'js/open', defer: true}) %>

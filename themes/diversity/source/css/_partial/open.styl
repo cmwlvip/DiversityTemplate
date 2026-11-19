@@ -1,0 +1,836 @@
+// 开源页全屏展示：突破 .wrapper 的 80% 宽度限制
+.open-page
+    #content
+        max-width 100%
+        margin 0
+    #content-inner
+        margin-left 0
+    .article-container
+        float none
+    .article-inner
+        border-radius 0
+        box-shadow none
+        margin 0
+        background-color transparent
+    // 收紧全站 .article 的 40px 上下内边距：开源页为全屏布局，
+    // 顶部贴 header 留 20px 呼吸（与 gutter-width 一致），底部对称收紧
+    .article
+        padding 20px 0
+    .inner
+        padding 0 40px
+    .article-title
+        float none
+        display flex
+        align-items center
+        gap 10px
+        .open-title-ico
+            width 0.95em
+            height 0.95em
+            fill currentColor
+            flex-shrink 0
+
+// 标题行：三列网格（1fr auto 1fr），标题居左、搜索框严格水平居中、切换按钮靠右
+.open-title-row
+    display grid
+    grid-template-columns 1fr auto 1fr
+    align-items center
+    gap 8px 12px
+    margin-bottom 8px
+    .article-title
+        grid-row 1
+        grid-column 1
+
+#open-list
+    max-width 1600px
+    margin 0 auto
+
+// 开源项目展示（统一使用 CSS 变量适配 light/dark）
+.open-toolbar
+    display flex
+    align-items center
+    gap 8px
+    grid-row 1
+    grid-column 3
+    justify-self end
+
+.open-switch
+    font-family font-page
+    font-size 0.9em
+    width 36px
+    height 36px
+    padding 0
+    display inline-flex
+    align-items center
+    justify-content center
+    border 1px solid var(--header-divider-color)
+    border-radius 8px
+    background-color var(--content-bg-color)
+    color var(--text-color)
+    cursor pointer
+    transition all 0.2s
+    &:hover
+        border-color color-link
+        color color-link
+    &.active
+        border-color color-link
+        background-color color-link
+        color color-white
+        .open-ico
+            fill color-white
+
+// 排序下拉：位于筛选栏行内、靠右；默认 order 不写入 URL
+// 筛选行三种控件（.open-tagchip / .open-tagbar-more / .open-sort）必须等高：PC 30px、手机 28px
+// —— 高度一律用显式 height + border-box 定死，垂直 padding 归零，改一处需同步另外两处
+.open-sort
+    font-family font-page
+    font-size 0.8em
+    box-sizing border-box
+    height 30px
+    padding 0 6px
+    border 1px solid var(--header-divider-color)
+    border-radius 8px
+    background-color var(--content-bg-color)
+    color var(--text-color)
+    cursor pointer
+    transition border-color 0.2s
+    &:hover
+    &:focus
+        border-color color-link
+
+.open-ico
+    width 18px
+    height 18px
+    fill currentColor
+
+#open-list
+    transition all 0.3s ease
+
+.open-card
+    background-color var(--content-bg-color)
+    border 1px solid var(--header-divider-color)
+    border-radius 8px
+    padding 16px
+    box-shadow 0 3px 8px 6px rgba(7, 17, 27, 0.09)
+    transition transform 0.2s, box-shadow 0.2s
+    &:hover
+        transform translateY(-4px)
+        box-shadow 0 6px 16px 8px rgba(7, 17, 27, 0.15)
+
+.open-card-head
+    display flex
+    align-items center
+    gap 12px
+    margin-bottom 12px
+
+.open-logo
+    width 72px
+    height 72px
+    border-radius 12px
+    object-fit contain
+    flex-shrink 0
+    background-color var(--content-bg-color)
+
+.open-logo-default
+    display block
+
+.open-name
+    font-family font-page
+    font-size 1.3em
+    font-weight bold
+    color var(--text-color)
+    margin 0
+    min-width 0
+    overflow-wrap break-word
+
+.open-desc
+    font-family font-page
+    font-size 0.95em
+    line-height 1.6
+    color var(--text-color)
+    opacity 0.85
+    margin 0 0 8px 0
+    overflow-wrap break-word
+    word-break break-word
+    &.clamp
+        display -webkit-box
+        -webkit-box-orient vertical
+        -webkit-line-clamp 2
+        overflow hidden
+
+.open-more
+    display inline-block
+    margin-top 0
+    margin-bottom 8px
+    padding 2px 0
+    font-size 0.78em
+    color color-link
+    cursor pointer
+    user-select none
+
+.open-meta
+    display flex
+    flex-wrap wrap
+    // 语言徽章是裸 span（无 <a> 包裹），作为 flex 子项会被块化并按默认 stretch 拉高，
+    // 与作者/协议（有 <a> 包裹、内容自然高）不一致 → 统一顶对齐按内容高
+    align-items flex-start
+    gap 6px
+    margin-bottom 10px
+
+// shields.io 风格徽章：深灰标签 + 彩色值
+.open-badge
+    display inline-flex
+    align-items center
+    font-size 0.72em
+    line-height 1
+    border-radius 4px
+    overflow hidden
+    .open-badge-label
+        padding 4px 6px
+        background-color #586069
+        color color-white
+    .open-badge-value
+        padding 4px 6px
+        color color-white
+
+.open-badge-author .open-badge-value
+    background-color #a371f7
+.open-badge-lang .open-badge-value
+    background-color #007ec6
+// 竖线只加在语言值之间（Language 标签与首个语言之间不加）
+// 用 border-left 实现：不撑高行高，左右间隔由相邻 value 的 padding 对称
+.open-badge-lang .open-badge-value + .open-badge-value
+    border-left 1px solid rgba(color-white, 0.55)
+.open-badge-license .open-badge-value
+    background-color #fe7d37
+
+.open-badge-link
+    // flex 容器：徽章在 <a> 内不参与行盒基线排版（行高继承会把徽章压低 ~5px，
+    // 与裸 span 的语言徽章错位），转 flex 后与语言徽章同高同位
+    display flex
+    text-decoration none
+    &:hover
+        opacity 0.85
+
+.open-tags
+    margin-bottom 12px
+
+.open-tag
+    display inline-block
+    font-size 0.75em
+    padding 2px 8px
+    margin 0 6px 6px 0
+    border none
+    border-radius 10px
+    background-color color-pale-gray
+    color color-dark-gray
+    font-family font-page
+    cursor pointer
+    transition all 0.2s
+    user-select none
+    -webkit-tap-highlight-color transparent
+    &:hover
+        background-color color-link
+        color color-white
+
+// 筛选栏行：常用标签 chips（被 ≥2 个项目使用的标签，与 .open-tagchip 同风格单选高亮）居左 +
+// 右侧控件组（折叠按钮 + 排序下拉）靠右。该行由 open.ejs 恒渲染（无常用标签时只剩排序下拉），
+// 故 has-tagbar 常驻：收掉 article-header 的 20px 下内边距，间距统一由本行 margin 控制
+.open-page .article-header.has-tagbar
+    padding-bottom 0
+// 控件组浮动到右上（DOM 中前置于标签行）→ 标签行为块级行内流：首行避让控件宽度，
+// 第二行起占满整行，标签按自身宽度密排，窄屏下不再出现大片空白。
+// overflow hidden 负责包住浮动（行高正确，也不会压住下方元素）
+.open-filterbar
+    display block
+    overflow hidden
+    max-width 1600px
+    // 上 4px（+标题行 8px 行间距 = 12）与下 12px 对齐
+    margin 4px auto 12px
+// 标签行：块级容器 + 行内级 chip（间距由 chip 自身 margin 提供，行内布局没有 gap）
+.open-tagbar
+    display block
+    // 抵消最后一行 chip 的下外边距，避免尾部多出空白
+    margin-bottom -8px
+    // is-collapsed 仅作状态标记（open.js 维护）：折叠时多余 chip 已隐藏，该行恒为一行高
+// 控件组：折叠按钮（open.js 注入到本组首位）+ 排序下拉，二者恒在同一行；
+// 浮动到右上后标签自动绕排，标签展开成多行时控件也不会被挤走
+.open-filter-tools
+    display flex
+    align-items center
+    gap 8px
+    float right
+    // 与标签之间的最小间隙（浮动元素不参与标签行的间距）
+    margin-left 8px
+.open-filterbar .open-sort
+    // 排序下拉不参与收缩，窄屏下始终完整可点
+    flex-shrink 0
+
+.open-tagchip
+    font-family font-page
+    font-size 0.8em
+    line-height 1
+    // 高度定死（与「+N」按钮、排序下拉等高，见 .open-sort 上方说明）：垂直 padding 归零，
+    // 文案由 align-items center 居中，不靠 padding 撑高（否则字号一变高度就不一致）
+    box-sizing border-box
+    height 30px
+    padding 0 12px
+    display inline-flex
+    align-items center
+    gap 6px
+    // 行内级排列（标签行是块级容器）：与「+N」按钮基线一致；间距由 margin 提供（行内布局没有 gap）
+    vertical-align middle
+    margin-right 8px
+    margin-bottom 8px
+    // 标签文案不换行：chip 内是 flex 容器，文本是匿名 flex item，空间紧张时会被压到
+    // min-content（中文可达单字）而折成多行（如「分库分表」→「分库/分表」）
+    white-space nowrap
+    border 1px solid var(--header-divider-color)
+    border-radius 999px
+    background-color var(--content-bg-color)
+    color var(--text-color)
+    cursor pointer
+    transition all 0.2s
+    user-select none
+    -webkit-tap-highlight-color transparent
+    .open-tagchip-n
+        font-size 0.85em
+        opacity 0.55
+    // 选中态 × 删除图标：由 open.js 选中时注入（count 徽标让位隐藏）
+    .open-tagchip-x
+        display none
+        align-items center
+        margin-left -2px
+        svg
+            display block
+            width 12px
+            height 12px
+    &:hover
+        border-color color-link
+        color color-link
+    &.active
+        border-color color-link
+        background-color color-link
+        color color-white
+        .open-tagchip-n
+            display none
+        .open-tagchip-x
+            display inline-flex
+            opacity 0.85
+
+// 标签折叠按钮「+N」（展开态为「−」）：外观与 .open-tagchip 对齐，虚线边框区分「筛选」与「展开更多」
+.open-tagbar-more
+    font-family font-page
+    font-size 0.8em
+    line-height 1
+    // 高度定死，与 chip / 排序下拉等高（见 .open-sort 上方说明）
+    box-sizing border-box
+    height 30px
+    padding 0 12px
+    display inline-flex
+    align-items center
+    border 1px dashed var(--header-divider-color)
+    border-radius 999px
+    background-color var(--content-bg-color)
+    color var(--text-color)
+    cursor pointer
+    // 不参与收缩，保证「+N」始终完整可点
+    flex-shrink 0
+    // 文案不换行：+N / − 恒为单行
+    white-space nowrap
+    transition all 0.2s
+    user-select none
+    -webkit-tap-highlight-color transparent
+    &:hover
+        border-color color-link
+        color color-link
+    // 必须写在 display:inline-flex 之后：作者样式会盖掉浏览器默认的 [hidden]{display:none}
+    &[hidden]
+        display none
+
+.open-links
+    display flex
+    align-items center
+    gap 12px
+    width 100%
+
+.open-link
+    font-size 0.85em
+    color color-link
+    text-decoration none
+    &:hover
+        color color-link-hover
+        text-decoration underline
+
+.open-empty
+    text-align center
+    color color-gray
+    padding 40px 0
+    &[hidden]
+        display none
+
+// 搜索无结果容器：文案 + 重置按钮纵向居中
+// 空状态卡片：与项目卡片同风格（同底色/边框/圆角），插画居左 + 文案按钮居右，
+// 避免三元素松散悬浮在空白里
+.open-no-result
+    display flex
+    align-items center
+    gap 20px
+    // border-box：主题全局 content-box，不显式声明的话 max-width 不含 padding/border，
+    // 实际渲染宽度会多出 74px（400 → 474）
+    box-sizing border-box
+    max-width 400px
+    margin 24px auto 0
+    padding 32px 36px
+    background-color var(--content-bg-color)
+    border 1px solid var(--header-divider-color)
+    border-radius 8px
+    &[hidden]
+        display none
+    // 空状态插画：颜色走 currentColor 跟随明暗主题，轻微上下浮动
+    .open-no-ico
+        width 88px
+        height auto
+        flex-shrink 0
+        color var(--text-color)
+    .open-no-body
+        display flex
+        flex-direction column
+        align-items flex-start
+        gap 10px
+        min-width 0
+        // 文案颜色必须显式跟 var(--text-color)：open 页不走 .article-content，无结果区
+        // 会继承浏览器默认黑色，暗色下黑字贴 #444 卡片底不可见；层次靠 粗细+透明度 区分
+        .open-empty
+            padding 0
+            margin 0
+            font-weight bold
+            color var(--text-color)
+        .open-empty-tip
+            padding 0
+            margin 0
+            font-size 0.85em
+            color var(--text-color)
+            opacity 0.7
+
+// 插画浮动动画（尊重系统减弱动态效果设置）
+@keyframes open-no-float
+    0%, 100%
+        transform translateY(0)
+    50%
+        transform translateY(-3px)
+
+.open-no-ico
+    animation open-no-float 3s ease-in-out infinite
+
+@media (prefers-reduced-motion: reduce)
+    .open-no-ico
+        animation none
+
+// 无结果重置按钮：与分页按钮同风格，宽度自适应文案
+.open-reset
+    font-family font-page
+    font-size 0.9em
+    height 36px
+    padding 0 20px
+    display inline-flex
+    align-items center
+    justify-content center
+    // 边框用中灰：明暗模式下与卡片底色（白/#444）都有对比，避免按钮融入卡片
+    border 1px solid color-gray
+    border-radius 8px
+    background-color var(--content-bg-color)
+    color var(--text-color)
+    cursor pointer
+    transition all 0.2s
+    user-select none
+    -webkit-tap-highlight-color transparent
+    &:hover
+        border-color color-link
+        color color-link
+
+// 搜索框：图标绝对定位在框内左右，输入框用 padding 让位
+.open-search
+    position relative
+    display flex
+    align-items center
+    grid-row 1
+    grid-column 2
+    width 380px
+    max-width 100%
+
+.open-search-ico
+    position absolute
+    left 10px
+    width 16px
+    height 16px
+    color var(--text-color)
+    opacity 0.5
+    pointer-events none
+
+.open-search-input
+    width 100%
+    min-width 0
+    font-family font-page
+    font-size 0.9em
+    line-height 1.4
+    padding 8px 32px
+    border 1px solid var(--header-divider-color)
+    border-radius 8px
+    background-color var(--content-bg-color)
+    color var(--text-color)
+    outline none
+    transition border-color 0.2s
+    &::placeholder
+        color var(--text-color)
+        opacity 0.4
+    &:focus
+        border-color color-link
+    // 隐藏 webkit 原生清除按钮，使用自定义按钮统一外观
+    &::-webkit-search-cancel-button
+        -webkit-appearance none
+        appearance none
+
+.open-search-clear
+    position absolute
+    right 6px
+    display inline-flex
+    align-items center
+    justify-content center
+    width 22px
+    height 22px
+    padding 0
+    border none
+    border-radius 50%
+    background-color transparent
+    color var(--text-color)
+    opacity 0.5
+    cursor pointer
+    -webkit-tap-highlight-color transparent
+    &:hover
+        opacity 1
+    &[hidden]
+        display none
+    .open-search-clear-ico
+        width 14px
+        height 14px
+
+.open-status
+    margin 0 0 12px 0
+    font-size 0.85em
+    color color-gray
+    &[hidden]
+        display none
+
+// 分页：水平居中一排按钮，样式与视图切换按钮（.open-switch）一致
+.open-pagination
+    display flex
+    align-items center
+    justify-content center
+    flex-wrap wrap
+    gap 8px
+    margin 24px auto 8px
+    &[hidden]
+        display none
+
+.open-page-btn
+    font-family font-page
+    font-size 0.9em
+    min-width 36px
+    height 36px
+    padding 0 8px
+    display inline-flex
+    align-items center
+    justify-content center
+    border 1px solid var(--header-divider-color)
+    border-radius 8px
+    background-color var(--content-bg-color)
+    color var(--text-color)
+    cursor pointer
+    transition all 0.2s
+    user-select none
+    -webkit-tap-highlight-color transparent
+    &:hover:not(:disabled):not(.active)
+        border-color color-link
+        color color-link
+    &.active
+        border-color color-link
+        background-color color-link
+        color color-white
+    &:disabled
+        opacity 0.4
+        cursor default
+    .open-page-ico
+        width 16px
+        height 16px
+        fill none
+        stroke currentColor
+
+// 命中关键词高亮（半透明底色，light/dark 均适用）
+.open-hl
+    padding 0 1px
+    border-radius 2px
+    background-color rgba(255, 202, 40, 0.42)
+    color inherit
+// 徽章为固定深色底 + 白字，高亮改用浅黄底 + 深字保证对比度
+.open-badge .open-hl
+    color #24292f
+    background-color rgba(255, 232, 120, 0.92)
+
+// 卡片 stagger 入场（初次加载/切换视图/翻页/重置搜索时由 open.js 触发；尊重系统减弱动态效果设置）
+@keyframes open-card-in
+    from
+        opacity 0
+        transform translateY(20px) scale(0.97)
+    to
+        opacity 1
+        transform none
+
+.open-card.anim-in
+    animation open-card-in 0.45s ease-out backwards
+
+@media (prefers-reduced-motion: reduce)
+    .open-card.anim-in
+        animation none
+
+// 展开/收起箭头按钮（默认隐藏，仅手机端显示；置于 .open-links 行内最右）
+.open-toggle
+    display none
+    flex-shrink 0
+    align-items center
+    justify-content center
+    width 28px
+    height 28px
+    padding 0
+    border none
+    background transparent
+    color var(--text-color)
+    opacity 0.6
+    cursor pointer
+    -webkit-tap-highlight-color transparent
+    .open-toggle-ico
+        width 20px
+        height 20px
+        transition transform 0.2s ease
+    &:active
+        opacity 1
+
+// 方格布局（grid）：磁贴式，内容左对齐（logo 在顶部，文字靠左），同行卡片等高、链接贴底
+.open-grid
+    display grid
+    grid-template-columns repeat(auto-fill, minmax(320px, 1fr))
+    gap 24px
+    align-items stretch
+    // PC 端按每页条数适配列数（open.js 计算：整除优先铺满整行，宽度不足自动降级），手机端由 mq-mobile 覆盖回 2 列
+    &.has-grid-cols
+        grid-template-columns repeat(var(--open-grid-cols, 3), minmax(0, 1fr))
+    .open-card
+        display flex
+        flex-direction column
+    .open-card-head
+        justify-content flex-start
+        margin-bottom 12px
+    .open-card-body
+        display flex
+        flex-direction column
+        flex 1
+        min-width 0
+        align-items flex-start
+        text-align left
+        // 方格模式：名称在 head（logo 旁）展示，body 里的名称隐藏
+        .open-name
+            display none
+    .open-links
+        margin-top auto
+        justify-content flex-start
+
+// 列表布局（list）：左侧图标 + 右侧内容（真正的行式列表，名称在内容区顶部）
+.open-list
+    display flex
+    flex-direction column
+    gap 16px
+    .open-card
+        display flex
+        flex-direction row
+        align-items flex-start
+        gap 20px
+    .open-card-head
+        flex 0 0 auto
+        margin-bottom 0
+        // 列表模式：名称在 body 顶部，head 里的名称隐藏
+        .open-name
+            display none
+    .open-card-body
+        flex 1
+        min-width 0
+        display flex
+        flex-direction column
+        align-self stretch
+        .open-name
+            margin 0 0 8px 0
+    .open-links
+        margin-top auto
+
+// 搜索过滤掉的卡片：特异性 (0,3,0) 高于 .open-grid/.open-list .open-card 的 display:flex
+.open-grid .open-card.is-hidden,
+.open-list .open-card.is-hidden
+    display none
+
+@media mq-mobile
+    // 方格：手机端保持两列磁贴；内容自适应，避免右侧溢出
+    .open-page
+        .inner
+            // 手机端方格到屏幕左右边缘的间隔缩小（原 15px，现 8px；桌面 40px）
+            padding 0 8px
+        // 基础样式的 article-header 带 20px 下内边距，搜索框换行到第二行后这 20px 全计入「下方间隔」，
+        // 与上方 8px 行间距形成 8/28 不对称；归零后改由搜索框自身外边距统一控制
+        .article-header
+            padding-bottom 0
+    // 标题行：手机端 标题 + 视图切换 同行（第一行），搜索框独占第二行并占满整行宽度
+    .open-title-row
+        grid-template-columns 1fr auto
+        gap 8px
+        margin-bottom 0
+        .article-title
+            grid-row 1
+            grid-column 1
+    .open-search
+        grid-row 2
+        grid-column 1 / -1
+        width auto
+        // 上方 4px + 行间距 8px = 12px，与下方 12px 对齐
+        margin 4px 0 12px
+    .open-toolbar
+        grid-row 1
+        grid-column 2
+        justify-self end
+    // 手机端排序下拉紧凑化：与 chip、「+N」按钮统一 28px（三者必须同高）
+    .open-sort
+        height 28px
+        font-size 0.78em
+    .open-search-input
+        font-size 0.85em
+        padding 7px 30px
+    .open-status
+        margin-bottom 8px
+    // 空状态卡片：手机端紧凑化（比桌面端略收，但保留足够高度避免扁宽）
+    .open-no-result
+        gap 14px
+        margin-top 16px
+        padding 30px 24px
+        .open-no-ico
+            width 64px
+        .open-no-body
+            gap 8px
+    // 筛选栏行：手机端紧凑化（搜索框 margin-bottom 12px 在 grid 行内，与下方 12px 对齐）
+    .open-filterbar
+        margin 0 0 12px
+    .open-tagbar
+        margin-bottom -6px
+    // 控件组同间距紧凑化（与 chip 间距一致）
+    .open-filter-tools
+        gap 6px
+        margin-left 6px
+    .open-tagchip
+        font-size 0.75em
+        // 与排序下拉、「+N」按钮同高（28px）；垂直 padding 归零
+        height 28px
+        padding 0 10px
+        margin-right 6px
+        margin-bottom 6px
+    // 折叠按钮与 chip 同尺寸紧凑化
+    .open-tagbar-more
+        font-size 0.75em
+        height 28px
+        padding 0 10px
+    // 分页：手机端按钮紧凑化
+    .open-pagination
+        margin 16px auto 8px
+    .open-page-btn
+        min-width 32px
+        height 32px
+        font-size 0.85em
+    .open-reset
+        height 32px
+        padding 0 16px
+        font-size 0.85em
+    // 手机端：卡片右下角展开/收起箭头；收起态隐藏 作者/语言/协议/标签
+    .open-toggle
+        display inline-flex
+        // 推到 .open-links 行最右，与 源码/文档/演示 同一行
+        margin-left auto
+    .open-card:not(.expanded)
+        .open-meta,
+        .open-tags
+            display none
+    .open-card.expanded
+        .open-toggle-ico
+            transform rotate(180deg)
+    .open-grid
+        // 手机端固定一行 2 个（覆盖桌面端按 page_size 适配的列数）
+        grid-template-columns repeat(2, 1fr)
+        &.has-grid-cols
+            grid-template-columns repeat(2, 1fr)
+        // 手机端两列之间的间隔缩小（原为 12px）
+        gap 8px
+        .open-card
+            // 底部比其余三边小 2px（8px），让链接/箭头更贴底
+            padding 8px 8px 6px
+            // grid item 默认 min-width:auto 会被内部内容撑开列宽，造成整体溢出右侧；归零后由内部断行控制
+            min-width 0
+            overflow-wrap anywhere
+            word-break break-word
+        .open-card-head
+            justify-content flex-start
+            margin-bottom 8px
+        .open-logo
+            width 36px
+            height 36px
+            margin 0
+        .open-name
+            font-size 0.9em
+        .open-card-body
+            align-items flex-start
+            text-align left
+        .open-desc
+            font-size 0.78em
+            margin 4px 0 8px
+        // 徽章容器换行，避免单行过宽撑破列
+        .open-meta
+            display flex
+            flex-wrap wrap
+            gap 4px
+            margin-bottom 8px
+        .open-badge
+            // 手机端在 0.68em 基础上约减 2px：按 16px 基准 0.12em≈1.92px；
+            // 注：hexo 链路会丢弃 em-px 混合的 calc()，故用纯 em 实现，自适应父级字号
+            font-size 0.56em
+        .open-tags
+            margin-bottom 8px
+            line-height 1.7
+        .open-link
+            font-size 0.78em
+        .open-links
+            gap 6px
+            // 不换行，保证 箭头 与 源码/文档/演示 同行（列宽足够容纳短链接）
+            flex-wrap nowrap
+    // 列表：单列横向行（图标+名称在左，描述/元信息/标签/链接在右）
+    .open-list
+        .open-card
+            flex-direction row
+            align-items flex-start
+            padding 8px 8px 6px
+            gap 12px
+        .open-card-head
+            flex 0 0 auto
+            margin-bottom 0
+        .open-logo
+            width 48px
+            height 48px
+            margin 0
+        .open-name
+            font-size 1.05em
+        .open-links
+            gap 6px
+            flex-wrap nowrap
+            align-items center
+            width 100%

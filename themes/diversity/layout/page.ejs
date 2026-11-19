@@ -1,0 +1,8 @@
+<%# 通用页面布局：结构抽至 _partial/article-container（open-detail.ejs 同壳复用），此处只组装各区块 %>
+<%- partial('_partial/article-container', {
+    bodyClass: '',
+    title: page.subTitle || page.title || theme.title || config.title,
+    contentHtml: page_anchor(page.content),
+    footerHtml: '<time class="article-footer-updated" datetime="' + date(page.updated) + '" itemprop="dateModified">' + __('page.last_updated', date(page.updated)) + '</time>',
+    tocHtml: toc(page.content, {list_number: false})
+}) %>

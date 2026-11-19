@@ -1,0 +1,149 @@
+# Diversity主题默认标题
+title: Diversity
+# Diversity主题默认描述
+description: 博客多样性，一款多主题自由切换的Hexo主题
+# 当网页链接被分享到社交平台时显示的图片URL
+image: /images/diversity.png
+# Favicon路径【一个小型图标，用于在浏览器的标签页、地址栏或书签栏中标识和区分不同的网站】
+favicon: /images/diversity.ico
+# 主题图片翻转后的背景图片
+back_image: /images/back.jpg
+
+# 深色模式，可选值： 0（关闭） | 1（跟随系统）| 2（手动切换）
+darkmode: 0
+
+# 多主题图片路径
+path:
+  # 以 landscape 主题举例：
+  # 如果该图片路径未配置，默认取 /images/default.png
+  landscape: /images/landscape.jpg
+  phase: /images/phase.png
+  light: /images/light.jpg
+
+# 主题项目来源【如果没有配置，则主题来源按钮点击无反应】
+source:
+  landscape: https://github.com/hexojs/hexo-theme-landscape
+  phase: https://github.com/hexojs/hexo-theme-phase
+  light: https://github.com/hexojs/hexo-theme-light
+
+# 页面配置
+page:
+  # 顶部导航栏位置【不配置，默认靠左】，可选值：left（靠左）| center（居中）| right（靠右）
+  header_nav_position: 
+  # 博客页滚动高度【单位：px】
+  # 滚动页面高度大于等于配置高度，隐藏菜单导航栏
+  # 滚动页面高度小于配置高度，显示菜单导航栏
+  blog_scroll_height: 200
+  # 文章图片放大查看（lightbox）
+  # 仅当子主题未自带图片放大能力、需要添加查看脚本时，才把主题名加入列表
+  # 自带方案无需配置：landscape/light/phase = fancybox；icarus = lightGallery；next = Fancybox v5
+  # 主实例（diversity）README 详情页按页面内容自动注入，无需配置
+  image_zoom: []
+
+# 返回顶部按钮配置
+back2top:
+  # 是否启用，可选值： true | false
+  enable: true
+  # 返回顶部按钮中是否启用展示滚动百分比，可选值： true | false
+  # Whether to enable displaying the scroll percent label in b2t button. Available values: true | false
+  enable_scroll_percent: false
+  # 展示返回顶部按钮的最少滚动百分比，建议值： 2 | 3 | 4 | 5
+  # Minimum scroll percentage to display the b2t button, recommended values: 2 | 3 | 4 | 5
+  scroll_percent: 5
+  # 返回顶部按钮展示位置，可选值： left | right
+  # B2t button position. Available values: left | right
+  position: right
+  # 鼠标悬浮或按钮激活时，返回顶部按钮的内容所展示的颜色
+  # The color displayed when the mouse hovers over b2t button or the b2t button is activated.
+  color: "#fc6423"
+  # 被排除主题不展示返回顶部按钮
+  # Excluded themes do not display the b2t button
+  exclude: [next]
+
+# 字体配置(优先西文字体，中文字体作为补充)
+# Font Configuration (Western fonts prioritized, Chinese fonts as supplement)
+font:
+  # 西文字体配置
+  # Western Font Configuration
+  western:
+    # 西文字体类型，可选值（常用）： Arial | Helvetica | Tahoma | Sitka | Times New Roman | Courier New | Verdana | Georgia | Palatino | Garamond | Comic Sans MS | Trebuchet MS
+    # 单个场景，如： Arial 或 'Times New Roman' 或 "Times New Roman"
+    # 多个场景，如： 'Tahoma, Times New Roman, Courier New' 或 "Times New Roman, Courier New, Verdana"
+    # Western Font family, Available values: Arial | Helvetica | Tahoma | Sitka | Times New Roman | Courier New | Verdana | Georgia | Palatino | Garamond | Comic Sans MS | Trebuchet MS
+    # Single font example: 'Arial' or 'Times New Roman' or "Times New Roman"
+    # Multiple fonts example: 'Tahoma, Times New Roman, Courier New' or "Times New Roman, Courier New, Verdana"
+    family: 
+  # 中文字体配置
+  # Chinese Font Configuration
+  chinese:
+    # 中文字体类型，可选值（常用）： 楷体 | 等线 | 黑体 | 宋体 | 仿宋
+    # 单个场景，如： '楷体' 或 "楷体"
+    # 多个场景，如： '楷体, 等线, 黑体' 或 "楷体, 等线, 黑体"
+    # Chinese Font family, Available values: 楷体 | 等线 | 黑体 | 宋体 | 仿宋
+    # Single font example: '楷体' or "楷体"
+    # Multiple fonts example: '楷体, 等线, 黑体' or "楷体, 等线, 黑体"
+    family:
+  # 导航栏字体配置
+  # Navigation bar font configuration
+  nav:
+    # 导航栏字体类型，可选值参考上述西文和中文字体类型
+    # Navigation bar font family. Optional values refer to the Chinese and Western font familys mentioned above.
+    family:
+    # 导航栏字体大小(参考示例： 1.1em 或 17px)
+    # Navigation bar font size (Example: 1.1em or 17px)
+    size: 
+  # 页面字体配置
+  # Page font configuration
+  page:
+    # 页面字体类型，可选值参考上述西文和中文字体类型
+    # Page font family. Optional values refer to the Chinese and Western font familys mentioned above.
+    family:
+  # 代码字体配置
+  # Code font configuration
+  code:
+    # 代码字体类型（等宽字体），可选值： Consolas | Monaco | Menlo | 'Liberation Mono' | 'Courier New' | 'Fira Code' | 'JetBrains Mono' | 'Source Code Pro'
+    # 单个场景，如： Consolas 或 'Fira Code'
+    # 多个场景，如： 'Fira Code, Consolas, monospace'
+    # Code font family (monospace). Available values: Consolas | Monaco | Menlo | 'Liberation Mono' | 'Courier New' | 'Fira Code' | 'JetBrains Mono' | 'Source Code Pro'
+    # Single font example: Consolas or 'Fira Code'
+    # Multiple fonts example: 'Fira Code, Consolas, monospace'
+    family:
+
+# 开源项目展示页配置
+# Open source projects showcase page configuration
+# 开源项目数据：source/_data/open/*.yml（单文件模式，文件名即 key），详见 docs/data-config.md
+# Project data: source/_data/open/*.yml (single-file mode, filename is the key). See docs/data-config.md
+open:
+  # 默认展示模式，可选值： grid（方格） | list（列表）
+  # Default display mode. Available values: grid | list
+  # 页面 front-matter 中指定 display 时优先于此处配置
+  # Takes lower priority than the display set in the page front-matter
+  display: grid
+  # 每页展示条数（分页），0 或不配置表示不分页、全量展示
+  # Number of items per page (pagination). 0 or unset means no pagination.
+  # 页面 front-matter 中指定 page_size 时优先于此处配置
+  # Takes lower priority than the page_size set in the page front-matter
+  page_size: 0
+
+# 多评论系统配置
+# 需要依赖 hexo-generator-comments 插件
+# comments:
+
+# Utterances
+# 一个由开源社区构建的评论插件，它提供了一种在博客、文章或任何静态网站上添加互动式评论功能的高效解决方案。
+# For more information: https://utteranc.es
+# 需要依赖 hexo-comments-utterances 插件
+# utterances:
+
+# Gitalk
+# 一个基于GitHub Issue和Preact开发的现代评论插件。
+# 它允许网站访客使用GitHub账号登录并发表评论，所有评论数据都储存在相应的GitHub仓库中。
+# For more information: https://gitalk.github.io
+# 需要依赖 hexo-comments-gitalk 插件
+# gitalk:
+
+# Giscus
+# 一个利用 GitHub Discussions 实现的评论系统
+# For more information: https://giscus.app/
+# 需要依赖 hexo-comments-giscus 插件
+# giscus:

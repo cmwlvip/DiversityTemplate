@@ -1,0 +1,64 @@
+menu:
+  blog: Blog
+  theme: Theme
+  comment: Comment
+
+button:
+  theme-default: DEFAULT
+  cancel-default: CANCEL
+  theme-redirect: REDIRECT
+  theme-source: SOURCE
+  back-to-top: BACK TO TOP
+
+gritter:
+  title-theme: Theme [{0}]
+  text-configured: Configured
+  text-canceled: Cancelled
+  text-click-to-jump: Click here
+
+no-theme:
+  tip-text: Default theme not set up! Click the button below to configure now.
+  btn-text: Theme Select
+
+page:
+  contents: Contents
+  back_to_top: Back to Top
+  last_updated: "Last updated: %s"
+
+open:
+  title: Open Source
+  view_grid: Grid
+  view_list: List
+  author: Author
+  language: Language
+  license: License
+  source: Source
+  demo: Demo
+  doc: Docs
+  empty: No open source projects yet
+  search: Search (name / desc / author / tags / lang / license)
+  clear: Clear
+  result: Found {n} projects
+  no_result: No matching projects found
+  reset: Reset
+  no_result_tip: Try different keywords or clear the filters
+  more: More>>
+  collapse: Collapse
+  prev: Previous page
+  next: Next page
+  pagination: Pagination
+  filter: Filter by tag
+  sort: Sort
+  sort_default: Default
+  sort_name_asc: Name ↑
+  sort_name_desc: Name ↓
+  tags_more: Show all tags
+  tags_less: Collapse tags
+  detail: View details
+  back: Back
+
+introduction:
+  landscape: A brand new default theme for Hexo.
+  phase: Feel the flow of time with Phase, the most beautiful theme for Hexo.
+  light: A simple theme for Hexo.
+  next: A high quality elegant Hexo theme. It is crafted from scratch with love.

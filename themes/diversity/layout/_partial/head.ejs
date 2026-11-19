@@ -1,0 +1,56 @@
+<meta charset="utf-8">
+<% 
+    var title = page.title;
+    var themeName = config.theme.charAt(0).toUpperCase() + config.theme.slice(1);
+    if (title) title += ' | ' + themeName;
+    if (!title) title = theme.title;
+    if (!title) title = config.title;
+%>
+<title><%= title %></title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<% if (config.author){ %><meta name="author" content="<%= config.author %>"><% } %>
+<%
+    /* og/twitter meta：按页面动态生成（页面用自身标题/摘要，未配置时回退站点默认值）。
+       og:type 恒为 website：本主题主实例只渲染 page 类页面（post 生成器为空，文章详情由子主题各自的 head 输出） */
+    var ogTitle = page.title || config.title || theme.title;
+    var ogDesc = page.description || '';
+    if (!ogDesc && page.excerpt) ogDesc = page.excerpt.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!ogDesc) ogDesc = config.description || theme.description || '';
+    if (ogDesc.length > 200) ogDesc = ogDesc.substring(0, 200) + '…';
+    var ogImage = page.cover || page.image || theme.image || config.image || '';
+    var isPageImage = !!(page.cover || page.image);
+%>
+<% if (ogDesc){ %><meta name="description" content="<%= ogDesc %>"><% } %>
+<meta property="og:title" content="<%= ogTitle %>"/>
+<meta property="og:type" content="website"/>
+<% if (ogDesc){ %><meta property="og:description" content="<%= ogDesc %>"/><% } %>
+<% if (config.url && page.path){ %><meta property="og:url" content="<%= full_url_for(page.path.replace(/(index\.html)$/, '')) %>"/><% } %>
+<% if (config.url && page.path){ %><link rel="canonical" href="<%= full_url_for(page.path.replace(/(index\.html)$/, '')) %>"/><% } %>
+<% if (ogImage){ %><meta property="og:image" content="<%= full_url_for(ogImage) %>"/><% } %>
+<meta property="og:site_name" content="<%= config.title %>"/>
+<meta name="twitter:card" content="<%= isPageImage ? 'summary_large_image' : 'summary' %>"/>
+<meta name="twitter:title" content="<%= ogTitle %>"/>
+<% if (ogDesc){ %><meta name="twitter:description" content="<%= ogDesc %>"/><% } %>
+<% if (ogImage && isPageImage){ %><meta name="twitter:image" content="<%= full_url_for(ogImage) %>"/><% } %>
+
+<% if (theme.favicon){ %>
+<%- favicon_tag(theme.favicon) %>
+<% } %>
+
+<%- css('https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css') %>
+<%- css('css/style.css') %>
+
+<%- diversity_data('main', diversity_config()) %>
+<%- js('js/diversity') %>
+<% /* mermaid 渲染脚本：仅正文（page.content）或 README（page.readme，开源详情页）含 mermaid 占位时注入，其余页面零请求；脚本内部对 mermaid 库（CDN）也是按需加载 */ %>
+<% if (((page.content || '') + (page.readme || '')).indexOf('data-mermaid') !== -1) { %>
+<%- js({src: 'js/mermaid-render', defer: true}) %>
+<% } %>
+<% /* 图片放大查看：仅正文（page.content）或 README（page.readme）含 <img> 时注入；自带图片放大的主题已在 scripts/injector 构建期跳过 */ %>
+<% if (((page.content || '') + (page.readme || '')).indexOf('<img') !== -1) { %>
+<%- js({src: 'js/image-lightbox', defer: true}) %>
+<% } %>
+<% /* 代码块增强（语言标签/复制按钮）：仅正文或 README 含代码块时注入；子主题实例由 scripts/injector 全局外链注入 */ %>
+<% if (((page.content || '') + (page.readme || '')).indexOf('<figure class="highlight') !== -1) { %>
+<%- js({src: 'js/code-copy', defer: true}) %>
+<% } %>

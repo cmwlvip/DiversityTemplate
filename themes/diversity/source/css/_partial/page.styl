@@ -1,0 +1,266 @@
+note-tip = hsl(40, 100%, 50%)
+note-info = hsl(200, 100%, 50%)
+note-warn = hsl(0, 100%, 50%)
+
+.content-wrap
+    width 100%
+    height 100%
+    flex 1 auto
+    margin 0
+    padding 0
+    border none
+
+#content
+    clearfix()
+    position relative
+
+#content-inner
+    clearfix()
+    @media mq-normal
+        margin-left article-toc-width
+
+.article-container
+    @media mq-normal
+        float right
+        width 100%
+
+.article-inner
+    clearfix()
+    box-shadow 0 3px 8px 6px rgba(7, 17, 27, 0.09)
+    background-color var(--content-bg-color)
+    border-radius 8px
+    margin 10px 0
+    @media mq-mobile
+    	margin 10px 5px
+    @media mq-normal
+        margin-right article-toc-width
+
+.article
+    float left
+    width 100%
+    padding 40px 0
+    // 手机端收紧上下留白（与开源列表页 .open-page .article 的 20px 对齐），内容贴近 header
+    @media mq-mobile
+        padding 20px 0
+    @media print
+        padding 0
+
+#article-toc
+    display none
+    float right
+    width article-toc-width
+    margin-right article-toc-width * -1
+    opacity 0.8
+    position sticky
+    top 0
+    @media mq-normal
+        display block
+
+#article-toc-inner
+    @extend .inner
+    overflow-x hidden
+    overflow-y auto
+    height auto
+    max-height calc(100vh - 80px)
+    width article-toc-width
+    box-shadow 0 3px 8px 6px rgba(7, 17, 27, 0.09)
+    background-color var(--content-bg-color)
+    padding-bottom 40px
+    margin 0 5px 40px 15px
+    border-radius 8px
+
+.article-toc-title
+	margin-top: 40px
+	padding: 10px 0
+	font-family: font-page
+	font-weight: bold
+	font-size: 1.2em
+	color: color-link
+	display: inline-block
+	border-top: 1px solid color-pale-gray1
+	line-height: 1
+
+.toc-link
+    font-family font-page
+    display block
+    color var(--text-color)
+    text-decoration none
+    padding 7px 5px 5px 7px
+    line-height 1
+    position relative
+    width 100%
+    &.current
+        color color-link
+    &:hover
+        color color-link-hover
+
+.toc-child
+    padding-left 1em
+    font-size 0.9em
+
+#article-toc-top
+    margin-top 2em
+    text-decoration none
+    color var(--text-color)
+    display block
+    font-family font-page
+    font-size 0.9em
+    font-weight bold
+    &:hover
+        color color-link-hover
+
+.article-header
+    clearfix()
+    padding-bottom 20px
+
+.article-title
+    float left
+    font-family font-page
+    font-size 36px
+    font-weight 300
+    text-decoration none
+    color var(--text-color)
+    transition 0.2s
+    a&:hover
+        color color-link-hover
+    .post &
+        float none
+
+.article-anchor
+    margin-left 10px
+    display none
+    &:before
+        content "#"
+    @media print
+        display none !important
+    .article-heading:hover &
+        display inline-block
+
+.article-content
+    line-height 1.8
+    color var(--text-color)
+    @media print
+      	font-size 12pt
+    p, ol, ul, dl, table, blockquote, iframe, .highlight
+      	margin 1em 0
+    h1
+      	font-size 2em
+    h2
+      	font-size 1.6em
+      	border-bottom 1px solid color-gray
+    h3
+      	font-size 1.4em
+      	margin 2em 0 0.5em 0
+    h4, h5, h6
+      	margin 1em 0
+    h1, h2
+      	margin 2.2em 0 1em 0
+      	line-height 1.5em
+    h1, h2, h3, h4, h5, h6
+      	font-weight bold
+    h3, h4, h5, h6
+      	line-height 1em
+    a
+      	color color-link
+      	text-decoration none
+      	&:hover
+            color color-link-hover
+            text-decoration underline
+      	@media print
+            color var(--text-color)
+            text-decoration underline
+            &:after
+              content " (" attr(href) ")"
+              font-size 80%
+      	code
+            color color-link
+    strong
+      	font-weight bold
+    em
+      	font-style italic
+    ul, ol, dl
+      	margin-left 20px
+      	ul, ol, dl
+            margin-top 0
+            margin-bottom 0
+    ul
+        list-style disc
+    ol
+        list-style decimal
+    dl
+        list-style square
+    li
+        margin 0.3em 0
+        p
+            margin 0
+        table, blockquote, iframe, .highlight
+            margin 1em 0
+    img, video
+      	max-width 100%
+    // mermaid 图渲染容器（构建期 filter 插件生成占位、mermaid-render.js 填充）：居中展示，超宽横向滚动不出格
+    .mermaid-holder
+        margin 1em 0
+        overflow-x auto
+        text-align center
+        svg
+            max-width 100%
+            height auto
+        // 渲染失败回退：以代码块形式展示图源（mermaid-render.js 加 mermaid-fallback）
+        &.mermaid-fallback
+            text-align left
+            white-space pre
+            font-family font-code
+            font-size 0.85em
+            line-height 1.6
+            color color-gray
+    blockquote
+        padding 0 20px
+        position relative
+        border 1px solid color-pale-gray1
+        border-left 5px solid color-light-gray1
+        footer
+            margin 1em 0
+            font-style italic
+            cite
+          	    &:before
+                    content "—"
+                    padding 0 0.3em
+                a
+                    color color-gray
+    .note
+        &.tip
+            border-left-color note-tip
+        &.info
+            border-left-color note-info
+        &.warn
+            border-left-color note-warn
+    .note-title
+        margin 1em 0
+        display block
+        font-size 1.3em
+        font-weight bold
+    // 边框与斑马纹用 color-gray 的半透明推导：随明暗底色自适应（编译期固定亮色在暗色下不可读）
+    table
+        max-width 100%
+        border 1px solid rgba(color-gray, 0.3)
+        display block
+        overflow auto
+        th
+            font-weight bold
+        th, td
+            padding 5px 15px
+        tr
+            &:nth-child(2n)
+              	background rgba(color-gray, 0.12)
+
+.article-footer
+    clearfix()
+    margin 3em 0 2em 0
+    border-top 1px solid color-pale-gray1
+    text-align center
+    color var(--text-color)
+    line-height 1em
+    padding-top 1em
+    position relative
+    @media print
+      	display none

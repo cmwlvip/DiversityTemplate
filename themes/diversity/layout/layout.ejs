@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="<%= config.language %>">
+<head>
+    <%- partial('_partial/head') %>
+</head>
+<body class="bg-color">
+    <div id="container">
+        <%- partial('_partial/header') %>
+        <%- body %>
+    </div>
+    <div id="mobile-nav-dimmer"></div>
+    <%- partial('_partial/mobile_nav') %>
+    <%- partial('_partial/after_footer') %>
+</body>
+</html>

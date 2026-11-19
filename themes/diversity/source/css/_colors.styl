@@ -1,0 +1,103 @@
+:root {
+    --body-bg-color: body-bg-color;
+    --nav-bg-color: nav-bg-color;
+    --content-bg-color: content-bg-color;
+    --text-color: text-color;
+    --header-divider-color: color-pale-gray;
+    --svg-color: color-midnight-blue;
+    --color-scheme-icon-color: color-orange;
+    // 代码块（Tomorrow 色板，见 highlight.styl）
+    --code-inline-bg: #f7e6e6;
+    --code-font-family: font-code;
+    --hl-foreground: #950f0f;
+    --hl-comment: #8e908c;
+    --hl-red: #c82829;
+    --hl-orange: #f5871f;
+    --hl-yellow: #eab700;
+    --hl-green: #718c00;
+    --hl-aqua: #3e999f;
+    --hl-blue: #4271ae;
+    --hl-purple: #8959a8;
+    --hl-deletion-bg: #ffeef0;
+    --hl-deletion-color: #b31d28;
+    --hl-addition-bg: #f0fff4;
+    --hl-addition-color: #22863a;
+
+    color-scheme: light;
+}
+
+// 定义一个 Mixin 来封装暗黑模式的样式
+dark-mode-styles() {
+    --body-bg-color: body-bg-color-dark;
+    --nav-bg-color: nav-bg-color-dark;
+    --content-bg-color: content-bg-color-dark;
+    --text-color: text-color-dark;
+    --header-divider-color: color-dark-gray;
+    --svg-color: color-cool-mist-white;
+    --color-scheme-icon-color: color-yellow;
+    // 代码块（Tomorrow Night 色板，与浅色 Tomorrow 配套）
+    --code-inline-bg: #453a3c;
+    --hl-foreground: #c5c8c6;
+    --hl-comment: #969896;
+    --hl-red: #cc6666;
+    --hl-orange: #de935f;
+    --hl-yellow: #f0c674;
+    --hl-green: #b5bd68;
+    --hl-aqua: #8abeb7;
+    --hl-blue: #81a2be;
+    --hl-purple: #b294bb;
+    --hl-deletion-bg: rgba(248, 81, 73, 0.16);
+    --hl-deletion-color: #ff7b72;
+    --hl-addition-bg: rgba(63, 185, 80, 0.16);
+    --hl-addition-color: #7ee787;
+
+    color-scheme: dark;
+}
+
+dark-filter-styles() {
+    filter: brightness(0.5) contrast(0.8);
+}
+
+dark-bg-img-styles() {
+    background: url(../images/body-bg-dark.jpg) center no-repeat fixed;
+}
+
+.bg-img {
+    background: url(../images/body-bg-light.jpg) center no-repeat fixed
+}
+
+// 跟随系统
+if (hexo-config('darkmode') == 1) {
+    @media (prefers-color-scheme: dark) {
+        :root {
+            dark-mode-styles();
+        }
+
+        #logo-wrap, .theme-wrap, .loading, #gritter-notice-wrapper, .dark-filter {
+            dark-filter-styles();
+        }
+
+        .bg-img {
+            dark-bg-img-styles();
+        }
+    }
+}
+
+// 手动切换
+if (hexo-config('darkmode') == 2) {
+    .dark-theme {
+        dark-mode-styles();
+    }
+
+    .dark-theme #logo-wrap,
+    .dark-theme .theme-wrap,
+    .dark-theme .loading,
+    .dark-theme #gritter-notice-wrapper,
+    .dark-theme .dark-filter {
+        dark-filter-styles();
+    }
+
+    .dark-theme .bg-img {
+        dark-bg-img-styles();
+    }
+}

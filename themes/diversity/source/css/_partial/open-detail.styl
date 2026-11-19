@@ -1,0 +1,150 @@
+// 开源项目详情页（⑦）：复用开源页卡片视觉与 CSS 变量，颜色全部走 var() 适配 light/dark
+
+// 返回链接：README 模式下面包屑式嵌入名称行左端（原顶部孤行已删），降级模式下独占一行
+.open-back
+    display inline-flex
+    align-items center
+    gap 6px
+    font-family font-page
+    font-size 0.95em
+    color var(--text-color)
+    text-decoration none
+    transition color 0.2s
+    &:hover
+        color color-link
+    svg
+        width 1em
+        height 1em
+
+// 降级模式（无 README）的返回行：卡片内首行
+.open-back-row
+    margin-bottom 16px
+
+// 详情内容容器：外壳/背景/排版/目录/评论全部复用 article-shell（page 同布局），无特有布局样式
+// ⚠️ 不留空的 .open-detail 选择器行：stylus 会把它与下一个选择器合并成选择器组
+.open-detail-head
+    display flex
+    align-items flex-start
+    gap 20px
+    margin-bottom 16px
+    .open-logo
+        width 72px
+        height 72px
+        border-radius 16px
+        flex-shrink 0
+    .open-detail-head-body
+        min-width 0
+        .open-name
+            margin 0 0 8px
+            font-size 1.5em
+        // 详情页描述完整展示（不截断），复用卡片描述样式但放宽行高
+        .open-desc
+            margin 0
+            line-height 1.7
+
+// 卡片入口链接（open.ejs）：项目名 hover 高亮、logo 链接不改变布局
+.open-name-link
+    color inherit
+    text-decoration none
+    transition color 0.2s
+    &:hover
+        color color-link
+.open-logo-link
+    display inline-flex
+    flex-shrink 0
+
+// 详情页内复用的卡片类微调
+.open-detail
+    // 标签是回跳列表筛选的链接（?tag=），去掉按钮类自带的下划线
+    .open-tag
+        text-decoration none
+
+// README 模式：元信息条（返回 + 链接按钮 + 徽章 + 标签），位于 README 正文上方
+// clear both 防御：page 布局的 article-container/article 均为浮动布局，防止条被挤成侧栏
+.open-detail-meta
+    clear both
+    // 与 README 的间距由 .open-readme 的 border-top + padding-top 统一控制，这里不再另加
+    margin-bottom 0
+    .open-detail-meta-head
+        display flex
+        align-items center
+        gap 8px 16px
+        flex-wrap wrap
+        margin-bottom 14px
+        // 面包屑式返回：淡化为主，hover 恢复链接色
+        .open-back
+            flex-shrink 0
+            color color-gray
+            &:hover
+                color color-link
+        // 链接按钮组靠右、不占满整行（覆盖卡片流里的 width 100%）
+        .open-links
+            width auto
+            margin-left auto
+        // 源码/演示/文档按钮化：描边胶囊，hover 淡底填充（仅详情页 meta 条内，不影响列表卡片流）
+        .open-link
+            padding 5px 14px
+            border 1px solid rgba(color-gray, 0.45)
+            border-radius 16px
+            transition color 0.2s, border-color 0.2s, background-color 0.2s
+            &:hover
+                text-decoration none
+                border-color color-link
+                background rgba(color-link, 0.08)
+    // 元信息条内的行距（默认 margin 供卡片流使用）
+    .open-meta
+        margin-bottom 12px
+    .open-tags
+        margin-bottom 0
+
+// README 正文：排版/间距与 page 正文完全一致（外层 .article-content 提供），仅图片圆角为项目页特有微调
+.open-readme
+    clear both
+    // 与上方 meta 条的分隔：rgba 由 color-gray 编译期推导，亮/暗模式都自然可见
+    margin-top 0
+    padding-top 20px
+    border-top 1px solid rgba(color-gray, 0.4)
+    // 手机端防撑宽总开关：overflow-wrap 可继承，链接（README 里大量超长 URL 分类跳转）、
+    // 段落/列表/标题/引用中的长串一律任意字符断行；代码块与表格两类场景在下方恢复 normal 走各自滚动方案
+    overflow-wrap anywhere
+    img
+        border-radius 8px
+    // iframe 无全局 max-width（img/video 在 article-content 已有），嵌入帧兜底不撑宽
+    iframe
+        max-width 100%
+    // README 首元素（现保留自带 h1）在 article-content 里有 2.2em 上外边距，
+    // 会与分隔线 padding 叠出大空隙，首元素归零贴线
+    h1:first-child
+    h2:first-child
+    h3:first-child
+        margin-top 0
+    // 代码块恢复 normal（抵消继承的 anywhere）：保持代码单行，超宽走自身横向滚动
+    pre
+    figure.highlight
+        overflow-wrap normal
+        overflow-x auto
+        pre
+            overflow-x visible
+    // 表格防挤压：同代码块思路，超出容器横向滚动，列宽按内容自然排布不被压缩
+    // 覆盖规则必须收在 .open-table-wrap 内（readme.js 构建时包层）：
+    // ① overflow 在 display:block 表格上不能裁剪内部表格盒，滚动只能由外层 div 承担；
+    // ② 若 wrapper 缺失（如 hexo s 未重启、generator 未重跑），表格回退 page.styl 的
+    //    display:block 行为（挤压但不会撑宽页面），保证 CSS 与 DOM 结构原子绑定；
+    // ③ 恢复 normal（抵消继承的 anywhere），max-content 才能算出真实自然宽度
+    .open-table-wrap
+        overflow-wrap normal
+        overflow-x auto
+        table
+            display table
+            width max-content
+            max-width none
+            overflow visible
+
+@media mq-mobile
+    // 手机端链接按钮组与 PC 一致靠右（meta-head flex-wrap，放不下时整组换行仍靠右）
+    .open-detail-head
+        gap 14px
+        .open-logo
+            width 56px
+            height 56px
+            border-radius 12px

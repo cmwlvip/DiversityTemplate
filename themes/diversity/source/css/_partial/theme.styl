@@ -1,0 +1,148 @@
+duration = 0.5s
+card-top = 50px
+card-bottom = 25px
+card-left = 25px
+arrow-size = 50px
+
+.theme-wrap, .ring, .img
+    position absolute
+    width 100%
+    height 100% 
+    transform-style preserve-3d
+    user-select none
+
+.theme-wrap
+    display flex
+    height 500px
+    left 50%
+    top 50%
+    transform translate(-50%, -50%)
+    overflow hidden
+
+.theme-inner
+    position absolute
+    pointer-events auto
+    perspective 2000px  
+    width 300px  
+    height 400px
+    left 50%  
+    top 50%  
+    transform translate(-50%, -50%)
+
+.img
+    opacity 1
+    backface-visibility hidden
+    transform-origin 50% 50%
+    // 中间卡片实际位于 ring 平面后方（ring 初始 rotateY(180) 翻转了 z 轴），
+    // ring 的透明平面会截走其区域的鼠标事件导致 :hover 失效：
+    // ring 不参与命中，由卡片自身平面接管（其背面因 backface-visibility hidden 不可命中，不影响）
+    pointer-events auto
+
+.ring
+    pointer-events none
+
+.card-container
+    position relative
+    display flex  
+    flex-direction column  
+    align-items center  
+    text-align center
+    justify-content center
+
+.card-front,
+.card-back
+    width 100%
+    height 100%
+    position absolute
+    backface-visibility hidden
+    transition transform duration ease
+
+.card .card-back
+    opacity 0
+
+.card
+    @media mq-normal
+        &:hover .card-front
+            animation flip duration forwards
+      
+        &:hover .card-back
+            animation flip duration reverse forwards
+            opacity 1
+
+.card.active
+    @media mq-mobile
+        .card-front
+            animation flip duration forwards
+      
+        .card-back
+            animation flip duration reverse forwards
+            opacity 1
+  
+@keyframes flip  
+    from  
+        transform rotateY(0deg)  
+    to  
+        transform rotateY(180deg)
+
+.top
+    position absolute
+    top card-top
+
+.bottom
+    position absolute
+    bottom card-bottom
+
+.middle
+    margin 0 card-left 0 card-left
+
+.text
+    font-size 18px
+    color color-bright-sky-blue
+
+.arrow-wrap
+    display flex
+    pointer-events auto
+    justify-content space-between
+    align-items center
+    width 100%
+    padding 0 2px
+    @media mq-normal
+        display none
+
+.left-arrow
+    margin-right auto
+    &:active
+        transform translateY(2px)
+
+.right-arrow
+    margin-left auto
+    transform rotate(180deg)
+    &:active
+        transform rotate(180deg) translateY(-2px)
+
+.left-arrow, .right-arrow
+    background-image url('../images/arrow.png')
+    background-repeat no-repeat
+    background-size contain
+    z-index 1
+    width arrow-size
+    height arrow-size
+
+#theme-footer
+    color rgba(color-white, 0.7)
+    display block
+    width 100%
+    margin 0 auto
+    height auto
+    position absolute
+    text-align center
+    bottom 10px
+
+#theme-footer a
+    color color-light-gray
+    text-decoration none
+    &:hover
+        color color-medium-gray
+
+#theme-footer p
+    margin 15px 0

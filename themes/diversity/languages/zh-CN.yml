@@ -1,0 +1,64 @@
+menu:
+  blog: 博客
+  theme: 主题
+  comment: 留言
+
+button:
+  theme-default: 设为默认
+  cancel-default: 取消默认
+  theme-redirect: 主题直达
+  theme-source: 主题来源
+  back-to-top: 返回顶部
+
+gritter:
+  title-theme: 主题【{0}】
+  text-configured: 已设置
+  text-canceled: 已取消
+  text-click-to-jump: 点击跳转
+
+no-theme:
+  tip-text: 您还没有设置默认主题！点击下方按钮前往设置
+  btn-text: 主题选择
+
+page:
+  contents: 目录
+  back_to_top: 回到顶部
+  last_updated: 上次更新：%s
+
+open:
+  title: 开源项目
+  view_grid: 方格
+  view_list: 列表
+  author: 作者
+  language: 语言
+  license: 协议
+  source: 源码
+  demo: 演示
+  doc: 文档
+  empty: 暂无开源项目
+  search: 搜索（名称 / 描述 / 作者 / 标签 / 语言 / 协议）
+  clear: 清空
+  result: 找到 {n} 个项目
+  no_result: 未找到匹配的开源项目
+  reset: 重置
+  no_result_tip: 试试更换关键词或清除筛选条件
+  more: 更多>>
+  collapse: 收起
+  prev: 上一页
+  next: 下一页
+  pagination: 分页
+  filter: 按标签筛选
+  sort: 排序
+  sort_default: 默认
+  sort_name_asc: 名称 ↑
+  sort_name_desc: 名称 ↓
+  tags_more: 展开全部标签
+  tags_less: 收起标签
+  detail: 查看详情
+  back: 返回
+
+introduction:
+  landscape: Hexo 中的一个全新的默认主题，需要 Hexo 2.4 或者 更高的版本。
+  phase: 通过 Phase，感受时间流逝，它是 Hexo 最美丽的主题。
+  light: Hexo 中的一个简约主题。
+  next: NexT 是一个高质量且优雅的 Hexo 主题。它从零开始，用心打造。 

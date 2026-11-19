@@ -1,0 +1,63 @@
+<div class="ring" style="cursor: grab; transform: rotateY(180deg);">
+    <%# 主题介绍映射：直接复用 diversity_config 中已计算的 introduction 字段（数据缺的主题由语言文件补齐） %>
+    <% const introMap = diversity_config().introduction; %>
+    <%
+        // 如果实际配置的主题较少，保证这些主题展现在样式布局的中间部分
+        let middle = rotateNum / 2;
+        let themeMiddle = themeNum % 2 ? Math.floor(themeNum / 2) : themeNum / 2 - 1;
+
+        let otherNum = rotateNum - themeNum;
+        let numbers = [];
+        for (let i = 1; i <= rotateNum; i++) {
+            numbers.push(i);
+        }
+        // 1 到 rotateNum 内取 otherNum 个不重复的随机数
+        let result = [];
+        for (let i = 0; i < otherNum; i++) {
+            let randomIndex = Math.floor(Math.random() * numbers.length);
+            result.push(numbers[randomIndex]);
+            numbers.splice(randomIndex, 1);
+        }
+        let otherCount = 0;
+
+        for (let i = 0; i < rotateNum; i++) {
+            let index = i - middle + themeMiddle;
+            // 根据样式布局的索引，来匹配配置的多主题列表中的实际索引
+            // 如果符合实际索引要求，则添加对应主题布局内容
+            if (index >= 0 && index < themeNum) {
+                let themeName = theme.themes[index];
+                let title = themeName.charAt(0).toUpperCase() + themeName.slice(1);
+                let path = themeImagePath[themeName];
+                if (!path) {
+                    path = '/images/default.png';
+                }
+                // 主题介绍：直接取 diversity_config().introduction 中对应主题的介绍
+                let introduction = introMap[themeName] || '';
+    %>
+    <div class="img rotate-10-<%= i %> card">
+        <div class="card-back card-container" style="background-image: url(&quot;<%= theme.back_image && diversity_url(theme.back_image) %>&quot;);">
+            <div class="top">
+                <h1><%= title %></h1>
+            </div>
+            <p class="middle text">
+               <%= introduction %>
+            </p>
+            <p class="bottom" theme="<%= themeName %>">
+                <button class="theme-default btn btn-primary"><%= __('button.theme-default') %></button>
+                <button class="theme-redirect btn btn-primary"><%= __('button.theme-redirect') %></button>
+                <button class="theme-source btn btn-primary"><%= __('button.theme-source') %></button>
+            </p>
+        </div>
+        <div class="card-front" style="background-image: url(&quot;<%= diversity_url(path) %>&quot;);"></div>
+    </div>
+    %>
+    <%
+            } else {
+                let path = '/images/default-' + result[otherCount++] + '.jpg';
+    %> 
+    <div class="img rotate-10-<%= i %>" style="background-image: url(&quot;<%= diversity_url(path) %>&quot;);"></div>
+    <%
+            }
+        }
+    %>
+</div>

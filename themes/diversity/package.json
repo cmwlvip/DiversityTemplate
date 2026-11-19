@@ -1,0 +1,29 @@
+{
+  "name": "hexo-theme-diversity",
+  "version": "2.5.8",
+  "description": "Hexo Theme Diversity",
+  "files": [
+    "languages",
+    "layout",
+    "other",
+    "scripts",
+    "source",
+    "_config.diversity.yml",
+    "_config.yml"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huazie/hexo-theme-diversity.git"
+  },
+  "keywords": [
+    "hexo",
+    "theme",
+    "diversity"
+  ],
+  "author": "huazie",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/huazie/hexo-theme-diversity/issues"
+  },
+  "homepage": "https://blog.huazie.com"
+}
