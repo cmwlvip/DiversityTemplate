@@ -7,7 +7,6 @@
 #   - Other themes fall back to the theme's own i18n, i.e. __('introduction.{theme}')
 #     (sourced from themes/diversity/languages/{lang}.yml).
 introduction:
-  landscape: A simple and elegant default theme for Hexo.
   #icarus: A simple and modern Hexo theme with modular design.
 #
 # Navigation menu names (merge priority: this file > legacy data file > theme i18n > menu key):
