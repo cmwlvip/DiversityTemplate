@@ -1,0 +1,34 @@
+title:
+  type: common
+  value_types: [string]
+  default_behavior: 文章用文件名补标题。
+  project_rule: 写明实际标题。含冒号加空格或可能被识别为其他 YAML 类型时，加引号。
+date:
+  type: common
+  value_types: [datetime]
+  format: "YYYY-MM-DD HH:mm:ss"
+  default_behavior: 本项目的文件名不含日期，未填写时回退到文件创建时间。
+  project_rule: 新文填写日期和时间，编辑旧文保留原值，因为它参与生成永久链接。
+updated:
+  type: common
+  value_types: [datetime]
+  format: "YYYY-MM-DD HH:mm:ss"
+  default_behavior: 由 updated_option 决定，本项目取文件修改时间（mtime）。
+  project_rule: 草稿可省略。新建正式文章或草稿转正时填写实际修改时间。编辑正式文章时按 AGENTS.md 更新。
+categories:
+  type: common
+  value_types: [string, list]
+  vocabulary: categories.yml
+  default_behavior: 未指定显式分类。
+  project_rule: 常规文章从词表选择一个主分类，用字符串填写。扁平的多项列表会形成父子分类，多个独立分类路径按 Hexo 官方文档使用嵌套列表。
+tags:
+  type: common
+  value_types: [string, list]
+  vocabulary: tags.yml
+  default_behavior: 无标签。
+  project_rule: 新文章用 YAML 列表，即使只有一个标签。标签相互并列，选择正文实际涉及的词。
+publish_theme:
+  type: project
+  value_types: [string, list]
+  default_behavior: 省略时在所有已启用的子主题发布。
+  project_rule: 使用 _config.diversity.yml 的 themes 中启用的标识。单主题用字符串，多主题用非空列表。使用主题专属标签时，正文需兼容所选主题。
