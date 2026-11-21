@@ -7,7 +7,8 @@ categories: Hexo
 description: 记录 Hexo 初始化、Diversity 多主题配置和 GitHub Pages 分支部署，以及 Diversity 部署到项目子路径时的源码修复。
 sticky:
 cover:
-top_img: /img/top_img004.jpg
+top_img: 
+publish_theme: butterfly
 ---
 
 这次从一个空目录开始搭建 Hexo 博客。先用脚手架自带的 Landscape 确认本地预览能跑起来，再接入 Diversity，让同一套文章可以通过不同主题访问，接着用 GitHub Pages 托管静态文件。把站点部署到仓库子路径后，又修复了 Diversity 的链接生成，并把修改后的主题源码交由博客仓库直接管理。
