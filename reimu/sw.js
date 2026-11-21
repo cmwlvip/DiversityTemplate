@@ -1,4 +1,4 @@
-const VERSION = "1795261151960";const preCache = ["/DiversityTemplate/reimu/images/taichi.png","/DiversityTemplate/reimu/images/banner.webp","/DiversityTemplate/reimu/css/loader.css","/DiversityTemplate/reimu/css/style.css","/DiversityTemplate/reimu/js/script.js"];const cacheDomain = [
+const VERSION = "1795277737606";const preCache = ["/DiversityTemplate/reimu/images/taichi.png","/DiversityTemplate/reimu/images/banner.webp","/DiversityTemplate/reimu/css/loader.css","/DiversityTemplate/reimu/css/style.css","/DiversityTemplate/reimu/js/script.js"];const cacheDomain = [
   "fonts.googleapis.com",
   "npm.webcache.cn",
   "unpkg.com",

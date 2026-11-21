@@ -1,0 +1,266 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Diversity：Hexo多主题主题 | Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="用 Diversity 为同一个 Hexo 博客接入 Landscape，记录 GitHub Pages 项目子路径的修复和主题源码的管理方式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Diversity：Hexo多主题主题">
+<meta property="og:url" content="https://cmwlvip.github.io/DiversityTemplate/butterfly/2026/11/21/hexo-diversity/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="用 Diversity 为同一个 Hexo 博客接入 Landscape，记录 GitHub Pages 项目子路径的修复和主题源码的管理方式。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cmwlvip.github.io/DiversityTemplate/butterfly/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-11-21T23:17:14.000Z">
+<meta property="article:modified_time" content="2026-11-21T16:15:27.639Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="diversity">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cmwlvip.github.io/DiversityTemplate/butterfly/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Diversity：Hexo多主题主题",
+  "url": "https://cmwlvip.github.io/DiversityTemplate/butterfly/2026/11/21/hexo-diversity/",
+  "image": "https://cmwlvip.github.io/DiversityTemplate/butterfly/img/butterfly-icon.png",
+  "datePublished": "2026-11-21T23:17:14.000Z",
+  "dateModified": "2026-11-21T16:15:27.639Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "John Doe",
+      "url": "https://cmwlvip.github.io/DiversityTemplate/butterfly"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/DiversityTemplate/butterfly/img/favicon.png"><link rel="canonical" href="https://cmwlvip.github.io/DiversityTemplate/butterfly/2026/11/21/hexo-diversity/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/DiversityTemplate/butterfly/css/index.css?v=5.7.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        try {
+          const data = { value }
+
+          if (ttl != null) {
+            data.expiry = Date.now() + ttl * 86400000
+          }
+
+          localStorage.setItem(key, JSON.stringify(data))
+        } catch (e) {
+          console.error(e)
+        }
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/DiversityTemplate/butterfly/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Diversity：Hexo多主题主题',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.2"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/DiversityTemplate/butterfly/"><span class="site-name">Hexo</span></a><a class="nav-page-title" href="/DiversityTemplate/butterfly/"><span class="site-name">Diversity：Hexo多主题主题</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">Diversity：Hexo多主题主题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2026-11-21T23:17:14.000Z" title="Created 2026-11-21 23:17:14">2026-11-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-11-21T16:15:27.639Z" title="Updated 2026-11-21 16:15:27">2026-11-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/DiversityTemplate/butterfly/categories/Hexo/">Hexo</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>我想让同一个 Hexo 博客可以切换主题，同时只维护一套 Markdown 文章。Diversity 提供主站的导航和主题选择页，并为每个启用的子主题启动一个 Hexo 实例。各实例读取同一份 <code>source/</code>，用自己的配置和模板生成页面。下面用 Landscape 演示从安装到预览，再记录 DiversityTemplate 部署到 GitHub Pages 项目子路径时遇到的链接问题。本文对应 Hexo 8.1.2 和 Diversity 2.5.8。</p>
+<span id="more"></span>
+
+<h2 id="安装并启用-Diversity"><a href="#安装并启用-Diversity" class="headerlink" title="安装并启用 Diversity"></a>安装并启用 Diversity</h2><h3 id="克隆并设置主站主题"><a href="#克隆并设置主站主题" class="headerlink" title="克隆并设置主站主题"></a>克隆并设置主站主题</h3><p>这些步骤从一个已经初始化、能在本地预览的 Hexo 项目开始。在项目根目录克隆 Diversity，并把站点根目录的 <code>_config.yml</code> 中的 <code>theme</code> 改为 <code>diversity</code>。<a target="_blank" rel="noopener" href="https://github.com/huazie/hexo-theme-diversity#%E5%AE%89%E8%A3%85">Diversity 安装说明</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth 1 https://github.com/huazie/hexo-theme-diversity themes/diversity</span><br></pre></td></tr></table></figure>
+
+<p><img src="/DiversityTemplate/butterfly/2026/11/21/hexo-diversity/diversity-theme-folder.png" alt="克隆后，项目的 themes 目录下出现 diversity"></p>
+<h3 id="同步配置和资源"><a href="#同步配置和资源" class="headerlink" title="同步配置和资源"></a>同步配置和资源</h3><p>我当时是手动同步的。把 <code>themes/diversity/_config.diversity.yml</code> 复制到项目根目录，再把 <code>themes/diversity/other/</code> 里的内容合并到站点的对应位置。例如，<code>other/source/_data/</code> 提供菜单等数据，<code>other/source/diversity/</code> 提供主题选择页等页面。也可以在切换主站主题后执行 <code>npx hexo dsync</code>。默认同步会保留已存在的文件。</p>
+<p><img src="/DiversityTemplate/butterfly/2026/11/21/hexo-diversity/manual-theme-files.png" alt="手动同步后，项目根目录出现 _config.diversity.yml"></p>
+<p>保留主题目录里的 <code>other/</code> 作为同步源时，在主站 <code>_config.yml</code> 已有的 <code>ignore</code> 列表里追加这条规则，避免 Hexo 扫描其中的语言和数据模板。<a target="_blank" rel="noopener" href="https://github.com/huazie/hexo-theme-diversity/blob/main/docs/zh/data-config.md">Diversity 数据配置说明</a></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ignore:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&#x27;**/themes/diversity/other/**&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="接入-Landscape-子主题"><a href="#接入-Landscape-子主题" class="headerlink" title="接入 Landscape 子主题"></a>接入 Landscape 子主题</h2><p>Diversity 安装并同步完成后，再接入负责渲染文章的子主题。每个子主题都需要一份独立的站点配置，并在 <code>_config.diversity.yml</code> 的 <code>themes</code> 列表中启用。下面以 Landscape 为例。</p>
+<h3 id="安装Landscape"><a href="#安装Landscape" class="headerlink" title="安装Landscape"></a>安装Landscape</h3><p>Hexo 初始化时通常已经通过 npm 安装了 Landscape。本次把它的源码放进 <code>themes/</code>，方便后续用 Git 子模块记录主题版本。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth 1 https://github.com/hexojs/hexo-theme-landscape themes/landscape</span><br></pre></td></tr></table></figure>
+
+<p><img src="/DiversityTemplate/butterfly/2026/11/21/hexo-diversity/both-theme-folders.png" alt="themes 目录同时包含 diversity 和 landscape"></p>
+<h3 id="配置并启用Landscape"><a href="#配置并启用Landscape" class="headerlink" title="配置并启用Landscape"></a>配置并启用Landscape</h3><p>在项目根目录创建 <code>config/landscape/</code>，把主站的 <code>_config.yml</code> 复制为 <code>config/landscape/_config.yml</code>。在副本里设置 Landscape 的主题名和输出目录，并保留 <code>source_dir: source</code>，让两个实例继续读取同一套文章。主站和子主题各用一个输出目录，构建后把整个 <code>public/</code> 作为发布产物。<a target="_blank" rel="noopener" href="https://github.com/huazie/hexo-theme-diversity/blob/main/docs/zh/other-config.md">Diversity 多主题配置</a></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># config/landscape/_config.yml</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">https://username.github.io/landscape</span></span><br><span class="line"><span class="attr">source_dir:</span> <span class="string">source</span></span><br><span class="line"><span class="attr">public_dir:</span> <span class="string">public/landscape</span></span><br><span class="line"><span class="attr">theme:</span> <span class="string">landscape</span></span><br></pre></td></tr></table></figure>
+
+<p>示例假设主站部署在 <code>https://username.github.io/</code>。如果主站配置中显式设置了 <code>root</code>，同步调整 Landscape 副本中的值，例如这里对应 <code>/landscape/</code>。</p>
+<p><img src="/DiversityTemplate/butterfly/2026/11/21/hexo-diversity/multi-theme-config-layout.png" alt="配置子主题后，项目根目录同时包含 config 和 _config.diversity.yml"></p>
+<p>在根目录的 <code>_config.diversity.yml</code> 中启用 Landscape。顺序也会影响默认的本地端口分配。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">themes:</span> [<span class="string">landscape</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="预览与切换主题"><a href="#预览与切换主题" class="headerlink" title="预览与切换主题"></a>预览与切换主题</h3><p>如果站点还没有安装 <code>cheerio</code>，先把它加入项目依赖，再启动预览。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install cheerio</span><br><span class="line">npx hexo server</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，主站监听 <code>4000</code>，第一个子主题监听 <code>4001</code>。打开终端显示的主站地址，从 <strong>Theme Select</strong> 选择 Landscape，再打开一篇文章确认子主题已经读取站点内容。增加主题时，为它准备一份 <code>config/&lt;主题名&gt;/_config.yml</code>，设置独立的 <code>public_dir</code>，再追加到 <code>themes</code> 列表。<a target="_blank" rel="noopener" href="https://github.com/huazie/hexo-theme-diversity/blob/main/docs/zh/diversity-config.md">Diversity 主题与端口配置</a></p>
+<p><img src="/DiversityTemplate/butterfly/2026/11/21/hexo-diversity/diversity-theme-select.png" alt="Diversity 的 Blog 页在未选择默认主题时显示 Theme Select 按钮"></p>
+<h2 id="用-Git-子模块固定主题版本"><a href="#用-Git-子模块固定主题版本" class="headerlink" title="用 Git 子模块固定主题版本"></a>用 Git 子模块固定主题版本</h2><p>最初我把 Diversity 和 Landscape 都登记为子模块。已经按前面的步骤克隆了这两个主题时，<code>git submodule add</code> 可以直接登记现有的 Git 仓库。在博客仓库根目录执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git submodule add https://github.com/huazie/hexo-theme-diversity themes/diversity</span><br><span class="line">git submodule add https://github.com/hexojs/hexo-theme-landscape themes/landscape</span><br><span class="line">git submodule status</span><br></pre></td></tr></table></figure>
+
+<p>我当时为 Landscape 添加子模块时，Git 提示暂存区的条目与工作区和 <code>HEAD</code> 都不同。确认要保留本地主题目录后，我用 <code>git rm --cached -f -- themes/landscape</code> 移除旧的暂存条目，再添加子模块。截图里的强制选项是为处理已有暂存冲突，正常登记时直接用上面的命令。</p>
+<p><img src="/DiversityTemplate/butterfly/2026/11/21/hexo-diversity/landscape-submodule.png" alt="终端显示 Landscape 的暂存冲突，以及清理索引后成功登记现有仓库"></p>
+<p>提交前检查 <code>.gitmodules</code> 中的路径和远端，以及 <code>git submodule status</code> 显示的提交。博客仓库记录的是各子模块的提交，构建机器要先检出这些版本。已有克隆可以执行 <code>git submodule update --init --recursive</code>，GitHub Actions 则可在检出步骤配置 <code>submodules: recursive</code>。<a target="_blank" rel="noopener" href="https://git-scm.com/docs/git-submodule">Git 子模块文档</a> · <a target="_blank" rel="noopener" href="https://github.com/cmwlvip/DiversityTemplate/blob/main/.github/workflows/deploy.yml">本项目的构建工作流</a></p>
+<h2 id="适配-GitHub-Pages-项目子路径"><a href="#适配-GitHub-Pages-项目子路径" class="headerlink" title="适配 GitHub Pages 项目子路径"></a>适配 GitHub Pages 项目子路径</h2><p>我用 <code>DiversityTemplate</code> 仓库发布博客。GitHub Pages 默认把 <code>username.github.io</code> 仓库的用户站点放在域名根目录，把 <code>DiversityTemplate</code> 这样的项目站点放在仓库名对应的子路径下。因此，主站的路径前缀是 <code>/DiversityTemplate/</code>，Landscape 的路径前缀是 <code>/DiversityTemplate/landscape/</code>。<a target="_blank" rel="noopener" href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#types-of-github-pages-sites">GitHub Pages 站点类型</a> · <a href="https://cmwlvip.github.io/DiversityTemplate/">DiversityTemplate 项目站点</a></p>
+<h3 id="修改-Diversity-的路径生成"><a href="#修改-Diversity-的路径生成" class="headerlink" title="修改 Diversity 的路径生成"></a>修改 Diversity 的路径生成</h3><p>当时主题菜单生成的链接是 <code>/diversity/theme/</code>。浏览器会从域名根目录访问这个地址，漏掉 <code>/DiversityTemplate/</code>。为了让项目站点上的菜单、主题切换和文章资源都能加载，我修改了 Diversity 2.5.8 的三处路径处理。</p>
+<ol>
+<li><strong>生成菜单和页面链接。</strong> <code>scripts/helper/site-url.js</code> 调用 Hexo 的 <code>url_for</code> 补齐站点的 <code>root</code>，并兼容已经带有该前缀的旧配置。于是 <code>source/_data/diversity_menu.yml</code> 可以继续写 <code>theme: /diversity/theme/</code>，生成的链接会指向 <code>/DiversityTemplate/diversity/theme/</code>。</li>
+<li><strong>初始化子主题。</strong> <code>scripts/index.js</code> 为每个子实例复制一份命令参数，再根据主站的 <code>url</code>、<code>root</code> 和主题名计算该实例的地址。Landscape 的文章和静态资源由此使用 <code>/DiversityTemplate/landscape/</code> 前缀。</li>
+<li><strong>切换主题。</strong> <code>source/js/diversity.js</code> 使用 <code>config.root</code> 和主题名拼接地址，供 Blog 页的 iframe 和主题选择页的直达按钮共用。本地预览时按所选主题切换端口，线上沿用当前域名。</li>
+</ol>
+<p>这两次提交记录了路径修复。<a target="_blank" rel="noopener" href="https://github.com/cmwlvip/DiversityTemplate/commit/e14f689dcef15299e874f9e58d23651eafa885b2">菜单路径调整</a> · <a target="_blank" rel="noopener" href="https://github.com/cmwlvip/DiversityTemplate/commit/07a2de6bf7ac7cd88f8ed9c45537a899bf7604d6">修复后的主题源码</a></p>
+<h3 id="让-GitHub-Actions-使用修复后的源码"><a href="#让-GitHub-Actions-使用修复后的源码" class="headerlink" title="让 GitHub Actions 使用修复后的源码"></a>让 GitHub Actions 使用修复后的源码</h3><p>路径修复起初只在本地的 Diversity 子模块里。博客仓库仍指向子模块原来的提交，GitHub Actions 检出后也就用不到这些改动。为了让线上构建用上修复，我把 Diversity 源码纳入博客仓库，和站点配置一起提交。Landscape 当时继续用子模块。</p>
+<p>迁移时，先备份 Diversity 的改动和需要保留的 Git 历史，再从博客仓库索引移除 <code>themes/diversity</code> 的子模块记录，移走该目录内的 <code>.git</code> 元数据，并从 <code>.gitmodules</code> 删除对应的配置段。最后运行 <code>git add -- .gitmodules themes/diversity</code>，用 <code>git diff --cached --stat</code> 确认暂存的是实际主题文件。下图是当时的操作记录，末尾的 <code>.gitmodules</code> 只列出了 Landscape。</p>
+<p><img src="/DiversityTemplate/butterfly/2026/11/21/hexo-diversity/diversity-submodule-migration.png" alt="将 Diversity 纳入博客仓库后，.gitmodules 仅列出 Landscape"></p>
+<p>构建时运行项目的 <code>npm run build</code>，先确认 <code>public/diversity/theme/index.html</code> 和 <code>public/landscape/index.html</code> 都已生成。部署后，从主站打开主题选择页，切到 Landscape，再打开一篇文章。主题选择页应位于 <code>/DiversityTemplate/diversity/theme/</code>，Landscape 文章、样式和文章图片应从 <code>/DiversityTemplate/landscape/</code> 下加载。</p>
+<h2 id="接入更多子主题"><a href="#接入更多子主题" class="headerlink" title="接入更多子主题"></a>接入更多子主题</h2><h3 id="Butterfly"><a href="#Butterfly" class="headerlink" title="Butterfly"></a>Butterfly</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> -b master --depth 1 https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
+
+<p>需要安装渲染器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save</span><br></pre></td></tr></table></figure>
+
+<p>后续步骤，参照 <a href="#%E9%85%8D%E7%BD%AE%E5%B9%B6%E5%90%AF%E7%94%A8Landscape">配置并启用Landscape</a> 接入主题。</p>
+<h3 id="reimu"><a href="#reimu" class="headerlink" title="reimu"></a>reimu</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-theme-reimu --save</span><br></pre></td></tr></table></figure>
+
+<p>后续步骤，参照 <a href="#%E9%85%8D%E7%BD%AE%E5%B9%B6%E5%90%AF%E7%94%A8Landscape">配置并启用Landscape</a> 接入主题。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://cmwlvip.github.io/DiversityTemplate/butterfly">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://cmwlvip.github.io/DiversityTemplate/butterfly/2026/11/21/hexo-diversity/">https://cmwlvip.github.io/DiversityTemplate/butterfly/2026/11/21/hexo-diversity/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/DiversityTemplate/butterfly/tags/Hexo/">Hexo</a><a class="post-meta__tags" href="/DiversityTemplate/butterfly/tags/diversity/">diversity</a></div><div class="post-share"><div class="social-share" data-image="/DiversityTemplate/butterfly/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/DiversityTemplate/butterfly/2026/11/21/hello-world/" title="Hello World"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">Hello World</div></div><div class="info-2"><div class="info-item-1">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.   Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;  More info: Writing Run server1$ hexo server  More info: Server Generate static files1$ hexo generate  More info: Generating Deploy to remote sites1$ hexo deploy  More info: Deployment </div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/DiversityTemplate/butterfly/2026/11/21/hexo-diversity-github-pages/" title="Hexo 博客搭建：Diversity 多主题与 GitHub Pages 自动部署"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-11-21</div><div class="info-item-2">Hexo 博客搭建：Diversity 多主题与 GitHub Pages 自动部署</div></div><div class="info-2"><div class="info-item-1">本文讲述了从一个空目录开始搭建 Hexo 博客。先用脚手架自带的 Landscape 确认本地预览能跑起来，再接入 Diversity，让同一套文章可以通过不同主题访问，接着用 GitHub Pages 托管静态文件。把站点部署到仓库子路径后，又修复了 Diversity 的链接生成，并把修改后的主题源码交由博客仓库直接管理。   初始化 Hexo 并预览准备 Node.js 并创建站点Hexo 运行在 Node.js 上，所以安装 Hexo CLI 前需要先准备 Node.js 和 npm。这次使用的是 Node.js 24.22.0，命令在 Windows 的 Git Bash 中执行。先用 node --version 和 npm --version 确认环境可用，再安装 Hexo CLI 并初始化 DiversityTemplate。 12npm install hexo-cli -ghexo init DiversityTemplate   初始化完成后，进入项目目录。 1cd DiversityTemplate  此时目录结构如下。  固定 Node.js 版本（可选...</div></div></div></a><a class="pagination-related" href="/DiversityTemplate/butterfly/2026/11/21/hello-world/" title="Hello World"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-11-21</div><div class="info-item-2">Hello World</div></div><div class="info-2"><div class="info-item-1">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.   Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;  More info: Writing Run server1$ hexo server  More info: Server Generate static files1$ hexo generate  More info: Generating Deploy to remote sites1$ hexo deploy  More info: Deployment </div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/DiversityTemplate/butterfly/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/DiversityTemplate/butterfly/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">John Doe</div><div class="author-info-description"></div><div class="site-data"><a href="/DiversityTemplate/butterfly/archives/"><div class="headline">Articles</div><div class="length-num">3</div></a><a href="/DiversityTemplate/butterfly/tags/"><div class="headline">Tags</div><div class="length-num">2</div></a><a href="/DiversityTemplate/butterfly/categories/"><div class="headline">Categories</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%B9%B6%E5%90%AF%E7%94%A8-Diversity"><span class="toc-number">1.</span> <span class="toc-text">安装并启用 Diversity</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%8B%E9%9A%86%E5%B9%B6%E8%AE%BE%E7%BD%AE%E4%B8%BB%E7%AB%99%E4%B8%BB%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">克隆并设置主站主题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E9%85%8D%E7%BD%AE%E5%92%8C%E8%B5%84%E6%BA%90"><span class="toc-number">1.2.</span> <span class="toc-text">同步配置和资源</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%85%A5-Landscape-%E5%AD%90%E4%B8%BB%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">接入 Landscape 子主题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Landscape"><span class="toc-number">2.1.</span> <span class="toc-text">安装Landscape</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%B9%B6%E5%90%AF%E7%94%A8Landscape"><span class="toc-number">2.2.</span> <span class="toc-text">配置并启用Landscape</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E8%A7%88%E4%B8%8E%E5%88%87%E6%8D%A2%E4%B8%BB%E9%A2%98"><span class="toc-number">2.3.</span> <span class="toc-text">预览与切换主题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8-Git-%E5%AD%90%E6%A8%A1%E5%9D%97%E5%9B%BA%E5%AE%9A%E4%B8%BB%E9%A2%98%E7%89%88%E6%9C%AC"><span class="toc-number">3.</span> <span class="toc-text">用 Git 子模块固定主题版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%82%E9%85%8D-GitHub-Pages-%E9%A1%B9%E7%9B%AE%E5%AD%90%E8%B7%AF%E5%BE%84"><span class="toc-number">4.</span> <span class="toc-text">适配 GitHub Pages 项目子路径</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9-Diversity-%E7%9A%84%E8%B7%AF%E5%BE%84%E7%94%9F%E6%88%90"><span class="toc-number">4.1.</span> <span class="toc-text">修改 Diversity 的路径生成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A9-GitHub-Actions-%E4%BD%BF%E7%94%A8%E4%BF%AE%E5%A4%8D%E5%90%8E%E7%9A%84%E6%BA%90%E7%A0%81"><span class="toc-number">4.2.</span> <span class="toc-text">让 GitHub Actions 使用修复后的源码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%85%A5%E6%9B%B4%E5%A4%9A%E5%AD%90%E4%B8%BB%E9%A2%98"><span class="toc-number">5.</span> <span class="toc-text">接入更多子主题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Butterfly"><span class="toc-number">5.1.</span> <span class="toc-text">Butterfly</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reimu"><span class="toc-number">5.2.</span> <span class="toc-text">reimu</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/DiversityTemplate/butterfly/2026/11/21/hexo-diversity/" title="Diversity：Hexo多主题主题">Diversity：Hexo多主题主题</a><time datetime="2026-11-21T23:17:14.000Z" title="Created 2026-11-21 23:17:14">2026-11-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/DiversityTemplate/butterfly/2026/11/21/hello-world/" title="Hello World">Hello World</a><time datetime="2026-11-21T16:15:27.638Z" title="Created 2026-11-21 16:15:27">2026-11-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/DiversityTemplate/butterfly/2026/11/21/hexo-diversity-github-pages/" title="Hexo 博客搭建：Diversity 多主题与 GitHub Pages 自动部署">Hexo 博客搭建：Diversity 多主题与 GitHub Pages 自动部署</a><time datetime="2026-11-21T15:25:33.000Z" title="Created 2026-11-21 15:25:33">2026-11-21</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By John Doe</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.7.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/DiversityTemplate/butterfly/js/utils.js?v=5.7.2"></script><script src="/DiversityTemplate/butterfly/js/main.js?v=5.7.2"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script>(function() {    if (window.parent !== window) {        if (typeof Pjax !== "undefined") {            document.addEventListener("pjax:complete", function() {                window.parent.postMessage({ type: "diversity:route-change", path: location.pathname }, "*");            });        }        window.addEventListener("load", function() {            window.parent.postMessage({ type: "diversity:route-change", path: location.pathname }, "*");        });        window.addEventListener("hashchange", function() {            window.parent.postMessage({ type: "diversity:route-change", path: location.pathname }, "*");        });    }})();</script><script src="/DiversityTemplate/js/mermaid-render.js" defer></script><script src="/DiversityTemplate/js/code-copy.js" defer></script><!-- hexo injector body_end end --></body></html>
